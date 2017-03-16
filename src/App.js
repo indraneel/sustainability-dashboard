@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import './App.css';
 
 import Dashboard from './screens/dashboard';
+import ActionEditor from './screens/action-editor';
 
 class App extends Component {
   render() {
@@ -12,6 +13,7 @@ class App extends Component {
       <MuiThemeProvider>
         <Router history={hashHistory}>
           <Route path="/" component={Dashboard} />
+          <Route path="/new" component={ActionEditor} />
         </Router>
       </MuiThemeProvider>
     );
@@ -20,7 +22,8 @@ class App extends Component {
 
 let mapStateToProps = (state) => {
   return {
-    municipality: state.municipality
+    municipality: state.municipality,
+    actionEditor: state.actionEditor
   }
 };
 

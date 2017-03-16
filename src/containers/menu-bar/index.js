@@ -9,6 +9,8 @@ class MenuBar extends Component {
       <AppBar
         style={style.root}
         iconElementLeft={<img alt={'logo'} style={style.logo} src={'http://www.sustainablejersey.com/typo3conf/ext/t3site/Sites/Main/Resources/Public/Images/logo-sj.png'}/>}
+        iconElementRight={<div onClick={this.props.toggleActionEditor}>+</div>}
+        iconStyleRight={style.add}
         title={this.props.municipalityName}
         titleStyle={style.title}>
       </AppBar>

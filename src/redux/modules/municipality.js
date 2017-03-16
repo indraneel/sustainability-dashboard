@@ -13,15 +13,19 @@ export function municipalityLoaded() {
   };
 }
 
-export function selectAction(category) {
+export function selectAction(categoryID) {
   return {
-    type: MUNICIPALITY_SELECT_ACTION
+    type: MUNICIPALITY_SELECT_ACTION,
+    payload: {
+      categoryID
+    }
   };
 }
 
-export function deselectAction(category) {
+export function deselectAction(categoryID) {
   return {
-    type: MUNICIPALITY_DESELECT_ACTION
+    type: MUNICIPALITY_DESELECT_ACTION,
+    payload: categoryID
   };
 }
 
@@ -33,6 +37,7 @@ const initialState = {
   points: 0,
   categories: {},
   sustainabilityActions: {},
+  selectedCategoryID: null
 };
 
 // reducer
@@ -40,7 +45,16 @@ export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case MUNICIPALITY_LOADED:
     case MUNICIPALITY_SELECT_ACTION:
+      let selectedCategoryID = action.payload.categoryID;
+      return Object.assign({},
+        { ...state },
+        { selectedCategoryID }
+      );
     case MUNICIPALITY_DESELECT_ACTION:
+    return Object.assign({},
+      { ...state },
+      { selectedCategoryID: null }
+    );
     default:
       return state;
   }

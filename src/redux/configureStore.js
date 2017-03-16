@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import municipality from './modules/municipality';
+import actionEditor from './modules/actionEditor';
 import createLogger from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
@@ -10,7 +11,8 @@ const loggerMiddleware = createLogger();
 const createStoreWithMiddleware = composeWithDevTools(applyMiddleware(loggerMiddleware))(createStore);
 
 const reducer = combineReducers({
-  municipality
+  municipality,
+  actionEditor
 });
 
 const configureStore = (initialState) => createStoreWithMiddleware(reducer, initialState);

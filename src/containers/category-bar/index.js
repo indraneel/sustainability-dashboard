@@ -54,13 +54,14 @@ class CategoryBar extends Component {
           {categoryData.map((category) => (
             <CategoryBarSection
               key={category.categoryId}
+              categoryId={category.categoryId}
               title={category.title}
               percentage={category.percentage}
               color={category.color}
               numberOfSections={category.length}
               maxWidth={650}
               handleSelectAction={this.props.handleSelectAction}
-              handleDeselectAction={this.props.handleDeselectAction}/>
+              selectedCategoryID={this.props.selectedCategoryID}/>
           ))}
         </div>
       </div>

@@ -12,5 +12,12 @@ export default {
     fontWeight: 'bold',
     fontSize: '28px',
     color: 'black'
+  },
+  add: {
+    fontWeight: 'bold',
+    fontSize: '78px',
+    color: 'black',
+    cursor: 'pointer',
+    marginTop: '0px',
   }
 }

@@ -54,7 +54,40 @@ const reportData = [
 ];
 
 class ReportCardGrid extends Component {
+  renderTiles(selectedCategory, reportData) {
+    let output = [];
+    reportData.map((tile) => {
+      if (selectedCategory) {
+         if (selectedCategory === tile.category) {
+             output.push(<GridTile
+               key={tile.id}
+               title={tile.title}
+               subtitle={tile.category}
+             />);
+         }
+      } else {
+        output.push(<GridTile
+          key={tile.id}
+          title={tile.title}
+          subtitle={tile.category}
+        />);
+      }
+    });
+    output.push(<GridTile
+      key={'add'}
+      title={'add new'}>
+    </GridTile>);
+
+    return output;
+  }
   render() {
+    let selectedCategory = null;
+    if (this.props.selectedCategoryID) {
+      selectedCategory = this.props.categories[this.props.selectedCategoryID];
+    }
+
+    let tiles = this.renderTiles(selectedCategory, reportData);
+
     return (
       <div style={style.root}>
         <GridList
@@ -63,18 +96,7 @@ class ReportCardGrid extends Component {
           padding={25}
           style={style.gridList}
         >
-          {reportData.map((tile) => (
-            <GridTile
-              key={tile.id}
-              title={tile.title}
-              subtitle={tile.category}
-            >
-            </GridTile>
-          ))}
-          <GridTile
-            key={'add'}
-            title={'add new'}>
-          </GridTile>
+        {tiles}
         </GridList>
       </div>
     );
