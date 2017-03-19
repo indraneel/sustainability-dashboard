@@ -13,7 +13,7 @@ export default {
   },
   bar: {
     margin: '0 auto',
-    maxWidth: '650px',
+    maxWidth: '750px',
     display: 'flex',
     border: '2px grey'
   }

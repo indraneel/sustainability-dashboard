@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import {GridList, GridTile} from 'material-ui/GridList';
 import style from './report-card-grid.style.js';
-
+import {RadialChart} from 'react-vis';
+import ReportCardTile from '../../components/report-card-tile';
 const reportData = [
   {
     id: 1,
     title: "emissions",
-    category: "Environment",
+    category: "Governance",
     description: "this is about env"
   },
   {
@@ -18,13 +19,13 @@ const reportData = [
   {
     id: 3,
     title: "emissions",
-    category: "Environment",
+    category: "Governance",
     description: "this is about env"
   },
   {
     id: 4,
     title: "emissions",
-    category: "Environment",
+    category: "Governance",
     description: "this is about env"
   },
   {
@@ -54,29 +55,36 @@ const reportData = [
 ];
 
 class ReportCardGrid extends Component {
+  generateViz() {
+    return (
+       <RadialChart
+        innerRadius={100}
+        radius={140}
+        data={[
+          {angle: 2},
+          {angle: 6},
+          {angle: 2},
+          {angle: 3},
+          {angle: 1}
+        ]}
+        width={300}
+        height={300}
+      />
+    );
+  }
+
   renderTiles(selectedCategory, reportData) {
     let output = [];
-    reportData.map((tile) => {
+
+    reportData.map((actionData) => {
       if (selectedCategory) {
-         if (selectedCategory === tile.category) {
-             output.push(<GridTile
-               key={tile.id}
-               title={tile.title}
-               subtitle={tile.category}
-             />);
+         if (selectedCategory === actionData.category) {
+             output.push(<ReportCardTile actionData={actionData}/>);
          }
       } else {
-        output.push(<GridTile
-          key={tile.id}
-          title={tile.title}
-          subtitle={tile.category}
-        />);
+        output.push(<ReportCardTile actionData={actionData}/>);
       }
     });
-    output.push(<GridTile
-      key={'add'}
-      title={'add new'}>
-    </GridTile>);
 
     return output;
   }

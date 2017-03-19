@@ -1,23 +1,25 @@
+import Colors from '../../constants/colors';
+
 export default {
   root: {
-    background: 'rgba(163,235,151,0.2)',
+    background: Colors.GREEN,
   },
   logo: {
-    maxWidth: '132px',
-    maxHeight: '100px',
-    marginLeft: '5px'
+    maxWidth: '66px',
+    maxHeight: '55px',
   },
   title: {
-    marginTop: '18px',
+    marginTop: '15px',
     fontWeight: 'bold',
     fontSize: '28px',
     color: 'black'
   },
-  add: {
-    fontWeight: 'bold',
-    fontSize: '78px',
-    color: 'black',
+  openActionEditorButton: {
     cursor: 'pointer',
-    marginTop: '0px',
+    background: Colors.GREEN
+  },
+  closeActionEditorButton: {
+    cursor: 'pointer',
+    background: Colors.GREEN
   }
 }

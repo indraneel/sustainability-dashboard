@@ -10,7 +10,7 @@ class CategoryBarSection extends Component {
   }
 
   toggleAction(e) {
-    this.props.handleSelectAction(this.props.categoryId);
+    this.props.handleSelectCategory(this.props.categoryId);
   }
 
   render() {

@@ -1,10 +1,15 @@
+// imported actions
+import {
+  ACTION_EDITOR_SAVED
+} from './actionEditor';
+import CategoryData from '../../constants/categories';
 
 // actions
 const ACTION_PREFIX = 'sustainability-dashboard/municipality/';
 
 const MUNICIPALITY_LOADED = ACTION_PREFIX + 'MUNICIPALITY_LOADED';
-const MUNICIPALITY_SELECT_ACTION = ACTION_PREFIX + 'SELECT_ACTION';
-const MUNICIPALITY_DESELECT_ACTION = ACTION_PREFIX + 'DESELECT_ACTION';
+const MUNICIPALITY_SELECT_CATEGORY = ACTION_PREFIX + 'SELECT_CATEGORY';
+const MUNICIPALITY_DESELECT_CATEGORY = ACTION_PREFIX + 'DESELECT_CATEGORY';
 
 // action creators
 export function municipalityLoaded() {
@@ -13,18 +18,18 @@ export function municipalityLoaded() {
   };
 }
 
-export function selectAction(categoryID) {
+export function selectCategory(categoryID) {
   return {
-    type: MUNICIPALITY_SELECT_ACTION,
+    type: MUNICIPALITY_SELECT_CATEGORY,
     payload: {
       categoryID
     }
   };
 }
 
-export function deselectAction(categoryID) {
+export function deselectCategory(categoryID) {
   return {
-    type: MUNICIPALITY_DESELECT_ACTION,
+    type: MUNICIPALITY_DESELECT_CATEGORY,
     payload: categoryID
   };
 }
@@ -35,7 +40,7 @@ const initialState = {
   completedActionIDs: [],
   categoryIDs: [],
   points: 0,
-  categories: {},
+  categories: CategoryData,
   sustainabilityActions: {},
   selectedCategoryID: null
 };
@@ -43,14 +48,17 @@ const initialState = {
 // reducer
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
+    case ACTION_EDITOR_SAVED:
+      return state;
+
     case MUNICIPALITY_LOADED:
-    case MUNICIPALITY_SELECT_ACTION:
+    case MUNICIPALITY_SELECT_CATEGORY:
       let selectedCategoryID = action.payload.categoryID;
       return Object.assign({},
         { ...state },
         { selectedCategoryID }
       );
-    case MUNICIPALITY_DESELECT_ACTION:
+    case MUNICIPALITY_DESELECT_CATEGORY:
     return Object.assign({},
       { ...state },
       { selectedCategoryID: null }

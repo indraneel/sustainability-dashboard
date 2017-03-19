@@ -8,7 +8,7 @@ class FormSection extends Component {
   render() {
     return (
       <div style={style.root} className={'Dash-ActionEditor-Form-Section'}>
-        <div style={style.label}>Label:</div>
+        <span style={style.label}>{this.props.label}</span>
         <SelectField />
       </div>
     )

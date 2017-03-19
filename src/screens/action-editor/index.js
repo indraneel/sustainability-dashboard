@@ -1,22 +1,30 @@
 import React, { Component } from 'react';
-import Divider from 'material-ui/Divider';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import {} from '../../redux/modules/actionEditor';
+
+import style from './action-editor.style.js';
+import {
+  actionEditorValueChanged
+} from '../../redux/modules/actionEditor';
 
 import Form from '../../containers/form';
 
-var formRows = [];
 class ActionEditor extends Component {
   constructor(props) {
     super(props);
+    this.handleValueChanged = this.handleValueChanged.bind(this);
+  }
+
+  handleValueChanged(key, value) {
+    this.props.actionEditorValueChanged(key, value);
   }
 
   render() {
     return (
       <div className={'Dash-ActionEditor'}>
         <Form
-          formSections={formRows} />
+          actionData={this.props.actionEditor.actionData}
+          handleValueChanged={this.handleValueChanged}/>
       </div>
     )
   }
@@ -30,6 +38,7 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
   return {
+    actionEditorValueChanged: bindActionCreators(actionEditorValueChanged, dispatch)
   }
 };
 
