@@ -1,18 +1,18 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+sd-ui/node_modules
 
 # testing
-/coverage
+sd-ui/coverage
 
 # production
-/build
+sd-ui/build
 
 # misc
 .DS_Store
-.env
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+sd-ui/.env
+sd-ui/npm-debug.log*
+sd-ui/yarn-debug.log*
+sd-ui/yarn-error.log*
 
