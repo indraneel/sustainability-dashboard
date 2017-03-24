@@ -70,12 +70,7 @@ const initialState = {
       type: 'pie',
       xAxisTitle: 'x-axis',
       yAxisTitle: 'y-axis',
-      data: [
-        { x: 'Leslie', y: 80 },
-        { x: 'Tom', y: 20 },
-        { x: 'Ron', y: 10 },
-        { x: 'Ann', y: 30 },
-      ],
+      data: [],
     }
   }
 };

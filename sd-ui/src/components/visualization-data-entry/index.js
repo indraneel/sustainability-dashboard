@@ -98,6 +98,31 @@ class VisualizationDataEntry extends Component {
     </div>
   }
 
+  renderBigTextDataEntry(type, data) {
+    let [
+      lineOne,
+      lineTwo,
+      lineThree
+    ] = data;
+    return <div>
+      <TextField
+        id={'1'}
+        floatingLabelText={'Line One'}
+        value={lineOne ? lineOne.value : null}
+        fullWidth={true}/>
+      <TextField
+        id={'2'}
+        floatingLabelText={'Line Two'}
+        value={lineTwo ? lineTwo.value : null}
+        fullWidth={true}/>
+      <TextField
+        id={'3'}
+        floatingLabelText={'Line Three'}
+        value={lineThree ? lineThree.value : null}
+        fullWidth={true}/>
+      </div>
+  }
+
   render() {
     let {
       type,
@@ -111,6 +136,8 @@ class VisualizationDataEntry extends Component {
         return this.renderPieDataEntry(type, data, xAxisTitle, yAxisTitle);
       case 'bar':
         return this.renderBarDataEntry(type, data, xAxisTitle, yAxisTitle);
+      case 'text':
+        return this.renderBigTextDataEntry(type, data);
       default:
         return null;
     }

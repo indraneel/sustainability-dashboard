@@ -1,24 +1,24 @@
 export default [
   {
     id: 1,
-    title: "emissions",
-    category: "Governance",
+    title: "Create Green Team",
+    category: "Waste",
     description: "this is about env",
     visualization: {
-      type: 'pie',
+      type: 'line',
       xAxisTitle: 'x-axis',
       yAxisTitle: 'y-axis',
       data: [
-        { x: 'Leslie', y: 80 },
-        { x: 'Tom', y: 20 },
-        { x: 'Ron', y: 10 },
-        { x: 'Ann', y: 30 },
+        { x: new Date('2015-01-01T00:00:00-08:00'), y: 1 },
+      	{ x: new Date('2015-01-02T00:00:00-08:00'), y: 0 },
+      	{ x: new Date('2015-01-03T00:00:00-08:00'), y: 3 },
+      	{ x: new Date('2015-01-04T00:00:00-08:00'), y: 5 },
       ],
     }
   },
   {
     id: 2,
-    title: "emissions",
+    title: "Education for Sustainability Programs",
     category: "Waste",
     description: "this is about env",
     visualization: {
@@ -35,18 +35,15 @@ export default [
   },
   {
     id: 3,
-    title: "emissions",
+    title: "Green Challenges and Community Programs",
     category: "Governance",
     description: "this is about env",
     visualization: {
-      type: 'pie',
-      xAxisTitle: 'x-axis',
-      yAxisTitle: 'y-axis',
+      type: 'text',
       data: [
-        { x: 'Leslie', y: 80 },
-        { x: 'Tom', y: 20 },
-        { x: 'Ron', y: 10 },
-        { x: 'Ann', y: 30 },
+        { line: 1, value: "June 27" },
+        { line: 2, value: "8-10am" },
+        { line: 3, value: "35 people" },
       ],
     }
   },

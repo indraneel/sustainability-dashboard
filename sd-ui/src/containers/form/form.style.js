@@ -19,7 +19,7 @@ export default {
     justifyContent: 'space-around',
     margin: '0 auto',
     width: '300px',
-    height: '300px',
+    minHeight: '300px',
   },
   label: {
     float: 'left'

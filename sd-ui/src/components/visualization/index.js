@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import style from './visualization.style.js';
+import BigTextVisualization from './big-text';
 import {RadialChart} from 'react-vis';
 import {
   PieChart,
@@ -22,12 +23,20 @@ class Visualization extends Component {
     } = this.props.visualization;
     switch (type) {
       case 'pie':
-        return <PieChart
-          xAxisTitle={xAxisTitle}
-          yAxisTitle={yAxisTitle}
-          data={data}
-          palette={palette}/>;
-        break;
+        return <Resizer style={{
+					flexGrow: 1,
+					overflow: 'hidden',
+				}}>
+          {(width) => (
+            <PieChart
+              width={width}
+              height={width}
+              xAxisTitle={xAxisTitle}
+              yAxisTitle={yAxisTitle}
+              data={data}
+              palette={palette}/>
+          )}
+        </Resizer>;
       case 'line':
         return <Resizer style={{
 					flexGrow: 1,
@@ -35,8 +44,8 @@ class Visualization extends Component {
 				}}>
           {(width) => (
             <LineChart
-              width={width * 0.75}
-              height={width * 0.75}
+              width={width}
+              height={width}
               xAxisTitle={xAxisTitle}
               yAxisTitle={yAxisTitle}
               data={data}
@@ -50,14 +59,16 @@ class Visualization extends Component {
 				}}>
           {(width) => (
             <BarChart
-              width={width * 0.75}
-              height={width * 0.75}
+              width={width}
+              height={width}
               xAxisTitle={xAxisTitle}
               yAxisTitle={yAxisTitle}
               data={data}
               palette={palette}/>
           )}
           </Resizer>;
+        case 'text':
+          return <BigTextVisualization data={data}/>
       default:
         return null
     }

@@ -3,7 +3,10 @@ import COLORS from '../../constants/colors';
 
 export default {
   root: {
-    maxWidth: '250px'
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: '400px',
+    minHeight: '300px'
   },
   social: {
     display: 'flex',
@@ -16,7 +19,8 @@ export default {
   viz: {
   },
   titleBar: {
-    height: '50px',
+    flex: '1',
+    minHeight: '50px',
     backgroundColor: COLORS.BROWN.rgba
   },
   title: {

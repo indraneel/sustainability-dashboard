@@ -64,7 +64,7 @@ class ReportCardGrid extends Component {
     return (
       <div style={style.root}>
         <GridList
-          cellHeight={300}
+          cellHeight={325}
           cols={3}
           padding={25}
           style={style.gridList}
