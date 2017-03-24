@@ -1,8 +1,8 @@
-import Colors from '../../constants/colors';
+import COLORS from '../../constants/colors';
 
 export default {
   root: {
-    background: Colors.GREEN,
+    background: COLORS.GREEN.rgba,
   },
   logo: {
     maxWidth: '66px',
@@ -16,10 +16,8 @@ export default {
   },
   openActionEditorButton: {
     cursor: 'pointer',
-    background: Colors.GREEN
   },
   closeActionEditorButton: {
     cursor: 'pointer',
-    background: Colors.GREEN
   }
 }

@@ -1,11 +1,25 @@
 import React, {Component} from 'react';
 import style from './category-bar.style.js';
 import CategoryBarSection from '../../components/category-bar-section';
+import COLORS from '../../constants/colors';
 
 class CategoryBar extends Component {
   // constructor(props) {
   //   super(props);
   // }
+
+  getColor(color) {
+    let output = color;
+
+    if (COLORS[color]) {
+      output = COLORS[color].rgba ?
+        COLORS[color].rgba
+        : COLORS[color].hex ?
+          COLORS[color].hex
+          : color
+    }
+    return output;
+  }
 
   render() {
     return (
@@ -18,7 +32,7 @@ class CategoryBar extends Component {
               categoryId={category.categoryId}
               title={category.title}
               percentage={category.percentage}
-              color={category.color}
+              color={this.getColor(category.color)}
               numberOfSections={category.length}
               maxWidth={650}
               handleSelectCategory={this.props.handleSelectCategory}

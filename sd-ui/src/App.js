@@ -12,8 +12,7 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <Router history={hashHistory}>
-          <Route path="/" component={Dashboard} />
-          <Route path="/new" component={ActionEditor} />
+          <Route path='/(:displayActionId)' component={Dashboard} />
         </Router>
       </MuiThemeProvider>
     );

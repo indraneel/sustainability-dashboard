@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import style from './menu-bar.style.js';
+import COLORS from '../../constants/colors';
 
 import AppBar from 'material-ui/AppBar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -17,8 +18,7 @@ class MenuBar extends Component {
 
     let actionEditorButton = <FloatingActionButton
         onTouchTap={this.props.toggleActionEditor}
-        secondary={this.props.actionEditorOpen}
-        style={actionEditorButtonStyle}
+        backgroundColor={this.props.actionEditorOpen ? COLORS.PURPLE.hex : COLORS.PINK.hex}
         className={actionEditorButtonClassName}>
         { this.props.actionEditorOpen ?
           <NavigationClose />

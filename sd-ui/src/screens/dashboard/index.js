@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import RaisedButton from 'material-ui/RaisedButton';
+
 import MenuBar from '../../containers/menu-bar';
 import CategoryBar from '../../containers/category-bar';
+
 import ReportCardGrid from '../../containers/report-card-grid';
 import ActionEditor from '../action-editor';
 import {
@@ -41,6 +44,9 @@ class Dashboard extends Component {
 
   render() {
     let {
+      params: {
+        displayActionId
+      },
       municipality: {
         name,
         completedActions,
@@ -53,6 +59,9 @@ class Dashboard extends Component {
         actionEditorOpen
       }
     } = this.props;
+
+    displayActionId = parseInt(displayActionId);
+    let displaySpecificCard = displayActionId && completedActionIDs.includes(displayActionId);
     return (
       <div style={{height: '100%'}} className={'Dash'}>
         <MenuBar
@@ -63,12 +72,20 @@ class Dashboard extends Component {
           <ActionEditor />
           :
           <div>
-            <CategoryBar
-              categories={categories}
-              categoryIDs={categoryIDs}
-              handleSelectCategory={this.handleSelectCategory}
-              selectedCategoryID={selectedCategoryID}/>
+            { !displaySpecificCard ?
+              <CategoryBar
+                categories={categories}
+                categoryIDs={categoryIDs}
+                handleSelectCategory={this.handleSelectCategory}
+                selectedCategoryID={selectedCategoryID}/>
+              : <RaisedButton
+                  label='Back to all actions'
+                  secondary={false}
+                  href={'/'}/>
+            }
             <ReportCardGrid
+              displaySpecificCard={displaySpecificCard}
+              displayActionId={displayActionId}
               categories={categories}
               completedActions={completedActions}
               completedActionIDs={completedActionIDs}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {GridList, GridTile} from 'material-ui/GridList';
+
 import style from './report-card-grid.style.js';
 import {RadialChart} from 'react-vis';
 import ReportCardTile from '../../components/report-card-tile';
@@ -23,22 +24,31 @@ class ReportCardGrid extends Component {
     );
   }
 
-  renderTiles(selectedCategory, completedActions) {
+  renderTiles(selectedCategory, completedActions, displaySpecificCard, displayCardId) {
     let output = [];
 
     Object.keys(completedActions).map((key, index) => {
       let actionData = completedActions[key];
-      if (selectedCategory) {
-         if (selectedCategory.title === actionData.category) {
-             output.push(<ReportCardTile
-               key={index}
-               actionData={actionData}/>);
-         }
-      } else {
-        output.push(<ReportCardTile
-          key={index}
-          actionData={actionData}/>);
+      if (displaySpecificCard) {
+        if (actionData.id === displayCardId) {
+          output.push(<ReportCardTile
+            key={index}
+            actionData={actionData}/>);
+        }
       }
+      else {
+        if (selectedCategory) {
+            if (selectedCategory.title === actionData.category) {
+              output.push(<ReportCardTile
+                key={index}
+                actionData={actionData}/>);
+            }
+        } else {
+          output.push(<ReportCardTile
+            key={index}
+            actionData={actionData}/>);
+        }
+    }
     });
 
     return output;
@@ -48,8 +58,8 @@ class ReportCardGrid extends Component {
     if (this.props.selectedCategoryID) {
       selectedCategory = this.props.categories[this.props.selectedCategoryID];
     }
-
-    let tiles = this.renderTiles(selectedCategory, this.props.completedActions);
+    let displaySpecificCard = this.props.displayActionId && this.props.completedActionIDs.includes(this.props.displayActionId);
+    let tiles = this.renderTiles(selectedCategory, this.props.completedActions, displaySpecificCard, this.props.displayActionId);
 
     return (
       <div style={style.root}>

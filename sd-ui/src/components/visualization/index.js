@@ -1,24 +1,67 @@
 import React, { Component } from 'react';
 import style from './visualization.style.js';
 import {RadialChart} from 'react-vis';
+import {
+  PieChart,
+  LineChart,
+  BarChart,
+  Legend,
+  Resizer,
+  chartConstants
+} from 'lucid-ui';
+
+const palette = chartConstants.PALETTE_6;
 
 class Visualization extends Component {
   render() {
-    return (
-       <RadialChart
-        innerRadius={66}
-        radius={93}
-        data={[
-          {angle: 2},
-          {angle: 6},
-          {angle: 2},
-          {angle: 3},
-          {angle: 1}
-        ]}
-        width={200}
-        height={200}
-      />
-    );
+    let {
+      type,
+      xAxisTitle,
+      yAxisTitle,
+      data
+    } = this.props.visualization;
+    switch (type) {
+      case 'pie':
+        return <PieChart
+          xAxisTitle={xAxisTitle}
+          yAxisTitle={yAxisTitle}
+          data={data}
+          palette={palette}/>;
+        break;
+      case 'line':
+        return <Resizer style={{
+					flexGrow: 1,
+					overflow: 'hidden',
+				}}>
+          {(width) => (
+            <LineChart
+              width={width * 0.75}
+              height={width * 0.75}
+              xAxisTitle={xAxisTitle}
+              yAxisTitle={yAxisTitle}
+              data={data}
+              palette={palette}/>
+          )}
+        </Resizer>;
+      case 'bar':
+        return <Resizer style={{
+					flexGrow: 1,
+					overflow: 'hidden',
+				}}>
+          {(width) => (
+            <BarChart
+              width={width * 0.75}
+              height={width * 0.75}
+              xAxisTitle={xAxisTitle}
+              yAxisTitle={yAxisTitle}
+              data={data}
+              palette={palette}/>
+          )}
+          </Resizer>;
+      default:
+        return null
+    }
+
   }
 }
 

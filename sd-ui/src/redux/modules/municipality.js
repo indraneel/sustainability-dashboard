@@ -38,6 +38,7 @@ export function deselectCategory(categoryID) {
 // initial state
 const initialState = {
   name: "Haddonfield",
+  id: 0,
   completedActions: CompletedActions,
   completedActionIDs: CompletedActions.reduce((arr, CompletedAction) => {
     return arr.concat(CompletedAction.id);

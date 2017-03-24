@@ -3,36 +3,36 @@ export default [
   {
     categoryId: 1,
     title: 'Community',
-    color: 'gray'
+    color: 'DARK_GREEN'
   },
   {
     categoryId: 2,
     title: 'Waste & Pollution',
-    color: 'green'
+    color: 'GREEN'
   },
   {
     categoryId: 3,
     title: 'Governance',
-    color: 'brown'
+    color: 'BROWN'
   },
   {
     categoryId: 4,
     title: 'Energy & Natural Resources',
-    color: 'blue'
+    color: 'LIGHT_BLUE'
   },
   {
     categoryId: 5,
     title: 'Food',
-    color: 'orange'
+    color: 'YELLOW'
   },
   {
     categoryId: 6,
     title: 'Business & Development',
-    color: 'purple'
+    color: 'PURPLE'
   },
   {
     categoryId: 7,
     title: 'Health',
-    color: 'red'
+    color: 'YELLOW'
   }
 ];

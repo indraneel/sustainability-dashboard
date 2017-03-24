@@ -8,7 +8,8 @@ import style from './action-editor.style.js';
 import {
   actionEditorValueChanged,
   actionEditorSaving,
-  actionEditorSaved
+  actionEditorSaved,
+  actionEditorVisualizationValueChanged
 } from '../../redux/modules/actionEditor';
 
 import Form from '../../containers/form';
@@ -18,7 +19,7 @@ class ActionEditor extends Component {
     super(props);
     this.handleValueChanged = this.handleValueChanged.bind(this);
     this.handleSave = this.handleSave.bind(this);
-
+    this.handleVisualizationValueChanged = this.handleVisualizationValueChanged.bind(this);
   }
 
   componentWillMount() {
@@ -29,6 +30,10 @@ class ActionEditor extends Component {
 
   handleValueChanged(key, value) {
     this.props.actionEditorValueChanged(key, value);
+  }
+
+  handleVisualizationValueChanged(key, value) {
+    this.props.actionEditorVisualizationValueChanged(key, value);
   }
 
   handleSave() {
@@ -45,6 +50,7 @@ class ActionEditor extends Component {
           actionData={this.props.actionEditor.actionData}
           handleValueChanged={this.handleValueChanged}
           handleSave={this.handleSave}
+          handleVisualizationValueChanged={this.handleVisualizationValueChanged}
           categories={this.props.municipality.categories}/>
         <Snackbar
           open={this.state.open}
@@ -67,7 +73,8 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
   return {
     actionEditorValueChanged: bindActionCreators(actionEditorValueChanged, dispatch),
-    actionEditorSaved: bindActionCreators(actionEditorSaved, dispatch)
+    actionEditorSaved: bindActionCreators(actionEditorSaved, dispatch),
+    actionEditorVisualizationValueChanged: bindActionCreators(actionEditorVisualizationValueChanged, dispatch)
   }
 };
 
