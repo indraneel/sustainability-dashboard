@@ -15,4 +15,4 @@ sd-ui/.env
 sd-ui/npm-debug.log*
 sd-ui/yarn-debug.log*
 sd-ui/yarn-error.log*
-
+sd-import/config.py
