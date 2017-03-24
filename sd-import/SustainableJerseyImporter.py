@@ -53,9 +53,14 @@ class SustainableJerseyImporter:
 
                 try:
                     self.cur.execute("""INSERT INTO cert_reports
-                    (town, action, category, report, assets, contact, summary, date, points)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-                    (report['town'], actName, catName, report['report'], assets, report['contact'], summary, report['date'], report['points']))
+                    (town, action, category, assets, contact, summary, date, points)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
+                    (report['town'], actName, catName, assets, report['contact'], \
+                     summary, report['date'], report['points']))
+                    self.db.commit()
+
+                    self.cur.execute("""INSERT INTO report_files
+                    (report_file) VALUES (%s)""", (report['report'],))
                     self.db.commit()
                 except (MySQLdb.Error, MySQLdb.Warning) as e:
                     print(e)
