@@ -12,7 +12,6 @@ class SustainableJerseyImporter:
             'town': self.getTownName,
             'report': self.getReportPDF,
             'contact': self.getContact,
-            'summary': self.getSummary,
             'date': self.getDate,
             'points': self.getPoints,
             'categories': self.getCategories
@@ -50,12 +49,13 @@ class SustainableJerseyImporter:
             for action in actions:
                 actName = self.getActionName(category)
                 assets = self.getAssets(action)
+                summary = self.getSummary(action)
 
                 try:
                     self.cur.execute("""INSERT INTO cert_reports
                     (town, action, category, report, assets, contact, summary, date, points)
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-                    (report['town'], actName, catName, report['report'], assets, report['contact'], report['summary'], report['date'], report['points']))
+                    (report['town'], actName, catName, report['report'], assets, report['contact'], summary, report['date'], report['points']))
                     self.db.commit()
                 except (MySQLdb.Error, MySQLdb.Warning) as e:
                     print(e)
@@ -69,8 +69,10 @@ class SustainableJerseyImporter:
         return town
 
     def findTown(self, intro):
+        lowIntro = intro.lower()
         for town in self.towns:
-            if town.lower() in intro.lower():
+            i = lowIntro.find(town.lower())
+            if i > -1 and intro[i-1] != '(' and intro[i + len(town) + 1] != ')':
                 return town
         raise LookupError('Town name not found!', self.certId, intro)
 
