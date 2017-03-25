@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from flask import Flask, jsonify, abort, request
-from .tables import db, CertReports, ReportFiles
-from .errors import NotFound, MissingKey
+from tables import db, CertReports, ReportFiles
+from errors import NotFound, MissingKey
 
 app = Flask(__name__)
 app.config.from_pyfile('../config.py')
@@ -39,6 +39,7 @@ def action():
         get_town_actions(town)
     else:
         params = request.get_json()
+        params['town'] = town
         missing = []
         if not params['action']:
             missing.append('action')
@@ -46,10 +47,10 @@ def action():
             missing.apparend('category')
         if missing:
             raise MissingKey(', '.join(missing))
-        if action['id']:
-            update_town_action(town, action)
+        if 'id' in params:
+            return update_town_action(params)
         else:
-            add_town_action(town, action)
+            return add_town_action(params)
 
 def get_town_actions(town):
     results = CertReports.query.with_entities \
@@ -60,10 +61,15 @@ def get_town_actions(town):
     {'id': res[0], 'action': res[1], 'category': res[2]} \
     for res in results])
 
-def add_town_action(town, action):
-    pass
+def add_town_action(params):
+    action = CertReports(town = params['town'],
+                         action = params['action'],
+                         category = params['category'])
+    db.session.add(action)
+    db.session.commit()
+    return jsonify({'Action successfully added': params})
 
-def update_town_action(town, action):
+def update_town_action(params):
     pass
 
 @app.errorhandler(NotFound)
