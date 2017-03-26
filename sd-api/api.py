@@ -33,17 +33,17 @@ def action():
     .distinct(CertReports.town).all()
 
     if not [t[0] for t in towns if t[0] == town]:
-        abort(404)
+        raise NotFound(town)
 
     if request.method == 'GET':
-        get_town_actions(town)
+        return get_town_actions(town)
     else:
         params = request.get_json()
         params['town'] = town
         missing = []
-        if not params['action']:
+        if 'action' not in params:
             missing.append('action')
-        if not params['category']:
+        if 'category' not in params:
             missing.apparend('category')
         if missing:
             raise MissingKey(', '.join(missing))
@@ -52,10 +52,10 @@ def action():
         else:
             return add_town_action(params)
 
-def get_town_actions(town):
+def get_town_actions(town_name):
     results = CertReports.query.with_entities \
     (CertReports.report_id, CertReports.action, CertReports.category) \
-    .filter(CertReports.town == town).all()
+    .filter_by(town = town_name).all()
 
     return jsonify([ \
     {'id': res[0], 'action': res[1], 'category': res[2]} \
@@ -70,11 +70,17 @@ def add_town_action(params):
     return jsonify({'Action successfully added': params})
 
 def update_town_action(params):
-    pass
+    params['report_id'] = params['id']
+    del params['id']
+    CertReports.query.filter_by(report_id = params['report_id']).update(params)
+    db.session.commit()
+    return jsonify({'Action successfully updated': params})
 
 @app.errorhandler(NotFound)
 def handle_not_found(error):
-    return error.to_json()
+    response = error.to_json()
+    response.status_code = error.status_code
+    return response
 
 if __name__ == '__main__':
     app.run()
