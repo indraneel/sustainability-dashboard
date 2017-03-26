@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 from flask import Flask, jsonify, abort, request
+from flask_cors import CORS, cross_origin
 from tables import db, CertReports, ReportFiles
 from errors import NotFound, MissingKey
 
 app = Flask(__name__)
 app.config.from_pyfile('../config.py')
+cors = CORS(app, resources=app.config['CORS_SETTINGS'])
 db.init_app(app)
 
 @app.route('/report', methods = ['GET'])
