@@ -1,5 +1,9 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
 # dependencies
 sd-ui/node_modules
 
@@ -11,8 +15,10 @@ sd-ui/build
 
 # misc
 .DS_Store
+venv
+flask
+config.py
 sd-ui/.env
 sd-ui/npm-debug.log*
 sd-ui/yarn-debug.log*
 sd-ui/yarn-error.log*
-sd-import/config.py
