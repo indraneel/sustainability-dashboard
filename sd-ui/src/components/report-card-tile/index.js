@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import isEmpty from 'lodash/isEmpty';
 
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
@@ -14,6 +15,7 @@ import {
 import style from './report-card-tile.style.js';
 
 import Visualization from '../visualization';
+import VisualizationPlaceholder from '../visualization/placeholder';
 
 const {
   FacebookShareButton,
@@ -35,11 +37,11 @@ class ReportCardTile extends Component {
       id,
       category,
       description,
-      title,
+      action,
       visualization
     } = this.props.actionData;
 
-    const shareUrl = '/#/'+id;
+    const shareUrl = '/#/dashboard/'+this.props.municipalityName+'/'+id;
     return (
       <Paper style={style.root}>
         <div style={style.social}>
@@ -71,11 +73,16 @@ class ReportCardTile extends Component {
 
         <Divider />
         <div style={style.viz}>
-          <Visualization visualization={visualization}/>
+          {
+              !isEmpty(visualization) ?
+              <Visualization visualization={visualization}/>
+              : <VisualizationPlaceholder id={id} handleBuildViz={this.props.handleBuildViz}/>
+          }
+
         </div>
         <Divider />
         <div style={style.titleBar}>
-          {title}
+          <div style={style.title}>{action}</div>
         </div>
       </Paper>
     );

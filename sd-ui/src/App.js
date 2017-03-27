@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, Route, hashHistory } from 'react-router'
+import { Router, Route, Redirect, hashHistory } from 'react-router'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { connect } from 'react-redux';
 import './App.css';
@@ -12,7 +12,8 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <Router history={hashHistory}>
-          <Route path='/(:displayActionId)' component={Dashboard} />
+          <Redirect from='/' to='/dashboard/Haddonfield'/>
+          <Route path='/dashboard/:municipalityName(/:displayActionId)' component={Dashboard} />
         </Router>
       </MuiThemeProvider>
     );

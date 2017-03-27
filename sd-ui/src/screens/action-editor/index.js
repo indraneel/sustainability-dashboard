@@ -4,13 +4,14 @@ import { bindActionCreators } from 'redux';
 
 import Snackbar from 'material-ui/Snackbar';
 
-import style from './action-editor.style.js';
 import {
   actionEditorValueChanged,
   actionEditorSaving,
   actionEditorSaved,
-  actionEditorVisualizationValueChanged
+  actionEditorVisualizationValueChanged,
+  toggleActionEditor
 } from '../../redux/modules/actionEditor';
+import { visualizationEditorTypeChanged } from '../../redux/modules/visualizationEditor';
 
 import Form from '../../containers/form';
 
@@ -19,7 +20,6 @@ class ActionEditor extends Component {
     super(props);
     this.handleValueChanged = this.handleValueChanged.bind(this);
     this.handleSave = this.handleSave.bind(this);
-    this.handleVisualizationValueChanged = this.handleVisualizationValueChanged.bind(this);
   }
 
   componentWillMount() {
@@ -32,15 +32,17 @@ class ActionEditor extends Component {
     this.props.actionEditorValueChanged(key, value);
   }
 
-  handleVisualizationValueChanged(key, value) {
-    this.props.actionEditorVisualizationValueChanged(key, value);
-  }
-
   handleSave() {
     this.setState({
       open: true
     });
-    this.props.actionEditorSaved(this.props.actionEditor.actionData);
+
+    let payload = {
+      actionData: this.props.actionEditor.actionData,
+      visualization: this.props.visualizationEditor
+    }
+    this.props.actionEditorSaved(payload);
+    this.props.toggleActionEditor();
   }
 
   render() {
@@ -50,7 +52,8 @@ class ActionEditor extends Component {
           actionData={this.props.actionEditor.actionData}
           handleValueChanged={this.handleValueChanged}
           handleSave={this.handleSave}
-          handleVisualizationValueChanged={this.handleVisualizationValueChanged}
+          visualizationEditor={this.props.visualizationEditor}
+          visualizationEditorTypeChanged={this.props.visualizationEditorTypeChanged}
           categories={this.props.municipality.categories}/>
         <Snackbar
           open={this.state.open}
@@ -66,15 +69,18 @@ class ActionEditor extends Component {
 let mapStateToProps = (state) => {
   return {
     municipality: state.municipality,
-    actionEditor: state.actionEditor
+    actionEditor: state.actionEditor,
+    visualizationEditor: state.visualizationEditor
   }
 };
 
 let mapDispatchToProps = (dispatch) => {
   return {
+    toggleActionEditor: bindActionCreators(toggleActionEditor, dispatch),
     actionEditorValueChanged: bindActionCreators(actionEditorValueChanged, dispatch),
     actionEditorSaved: bindActionCreators(actionEditorSaved, dispatch),
-    actionEditorVisualizationValueChanged: bindActionCreators(actionEditorVisualizationValueChanged, dispatch)
+    actionEditorVisualizationValueChanged: bindActionCreators(actionEditorVisualizationValueChanged, dispatch),
+    visualizationEditorTypeChanged: bindActionCreators(visualizationEditorTypeChanged, dispatch)
   }
 };
 

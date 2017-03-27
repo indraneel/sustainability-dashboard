@@ -8,7 +8,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import style from './form.style.js';
 import FormSection from '../../components/form-section';
 import Visualization from '../../components/visualization';
-import VisualizationDataEntry from '../../components/visualization-data-entry';
+import VisualizationEditor from '../../containers/visualization-editor';
+import CategoryMapper from '../../constants/category-map';
 import SJCategories from '../../constants/sj-categories';
 import COLORS from '../../constants/colors';
 import VIZ_TYPES from '../../constants/visualization-types';
@@ -27,19 +28,19 @@ class Form extends Component {
     this.props.handleValueChanged('categoryId', payload);
   }
   handleVizTypeChanged(e, key, payload) {
-    this.props.handleVisualizationValueChanged('type', payload);
+    this.props.visualizationEditorTypeChanged(payload);
   }
   render() {
     let {
       id,
-      name,
+      action,
       category,
       categoryId,
       description,
       image,
-      visualization
     } = this.props.actionData;
 
+    let mappedCategory = CategoryMapper(category);
     let categories = [];
     this.props.categories.forEach((category, index) => {
       categories.push(<MenuItem
@@ -64,6 +65,7 @@ class Form extends Component {
     })
 
     return (
+
       <div style={style.root} className={'Dash-ActionEditor-Form'}>
         <div style={style.section}>
           <SelectField
@@ -79,9 +81,10 @@ class Form extends Component {
         </div>
         <div style={style.section}>
           <TextField
-            id={'name'}
+            id={'action'}
             floatingLabelText={'Action Name'}
-            value={name}
+            value={action}
+            floatingLabelFixed={true}
             onChange={this.handleValueChanged}
             fullWidth={true}/>
         </div>
@@ -98,24 +101,23 @@ class Form extends Component {
           <SelectField
             id={'visualization'}
             floatingLabelText={'Visualization'}
-            floatingLabelStyle={style.floatingLabel}
+            floatingLabelStyle={style.label}
             multiple={false}
-            value={visualization.type}
+            value={this.props.visualizationEditor.type}
             onChange={this.handleVizTypeChanged}
             fullWidth={true}>
               {viz_types}
           </SelectField>
         </div>
         {
-          visualization.type ?
+          this.props.visualizationEditor.type ?
           <div>
             <div style={style.visualizationSection}>
               <Visualization
-                visualization={visualization}/>
+                visualization={this.props.visualizationEditor}/>
             </div>
             <div style={style.section}>
-              <VisualizationDataEntry
-                visualization={visualization}/>
+              <VisualizationEditor />
             </div>
           </div>
           : null

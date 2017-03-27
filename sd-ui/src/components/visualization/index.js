@@ -17,9 +17,10 @@ class Visualization extends Component {
   render() {
     let {
       type,
-      xAxisTitle,
-      yAxisTitle,
-      data
+      xAxisField,
+      yAxisField,
+      data,
+      entryFields
     } = this.props.visualization;
     switch (type) {
       case 'pie':
@@ -29,10 +30,10 @@ class Visualization extends Component {
 				}}>
           {(width) => (
             <PieChart
+              xAxisField={entryFields[type].xAxisField}
+              yAxisField={entryFields[type].yAxisField}
               width={width}
               height={width}
-              xAxisTitle={xAxisTitle}
-              yAxisTitle={yAxisTitle}
               data={data}
               palette={palette}/>
           )}
@@ -46,8 +47,8 @@ class Visualization extends Component {
             <LineChart
               width={width}
               height={width}
-              xAxisTitle={xAxisTitle}
-              yAxisTitle={yAxisTitle}
+              xAxisTitle={xAxisField}
+              yAxisTitle={yAxisField}
               data={data}
               palette={palette}/>
           )}
@@ -61,8 +62,8 @@ class Visualization extends Component {
             <BarChart
               width={width}
               height={width}
-              xAxisTitle={xAxisTitle}
-              yAxisTitle={yAxisTitle}
+              xAxisTitle={xAxisField}
+              yAxisTitle={yAxisField}
               data={data}
               palette={palette}/>
           )}

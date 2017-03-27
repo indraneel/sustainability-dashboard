@@ -10,20 +10,37 @@ import CategoryBar from '../../containers/category-bar';
 import ReportCardGrid from '../../containers/report-card-grid';
 import ActionEditor from '../action-editor';
 import {
-  municipalityLoaded,
   selectCategory,
-  deselectCategory
+  deselectCategory,
+  getMunicipality,
+  selectAction
 } from '../../redux/modules/municipality';
 import {
   actionEditorOpened,
-  actionEditorClosed
+  actionEditorClosed,
+  toggleActionEditor
 } from '../../redux/modules/actionEditor';
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
+    this.handleBuildViz = this.handleBuildViz.bind(this);
     this.handleSelectCategory = this.handleSelectCategory.bind(this);
     this.handleToggleActionEditor = this.handleToggleActionEditor.bind(this);
+  }
+
+  componentDidMount() {
+    const {
+      getMunicipality,
+      location: {
+        pathname
+      },
+      params: {
+        municipalityName
+      }
+    } = this.props;
+
+    getMunicipality(municipalityName);
   }
 
   handleSelectCategory(categoryID) {
@@ -34,17 +51,22 @@ class Dashboard extends Component {
     }
   }
 
+  handleBuildViz(id) {
+    this.props.selectAction(id);
+    this.props.toggleActionEditor();
+  }
+
   handleToggleActionEditor() {
-    if (this.props.actionEditor.actionEditorOpen) {
-      this.props.actionEditorClosed();
-    } else {
-      this.props.actionEditorOpened();
-    }
+    this.props.toggleActionEditor();
   }
 
   render() {
     let {
+      location: {
+        pathname
+      },
       params: {
+        municipalityName,
         displayActionId
       },
       municipality: {
@@ -61,7 +83,8 @@ class Dashboard extends Component {
     } = this.props;
 
     displayActionId = parseInt(displayActionId);
-    let displaySpecificCard = displayActionId && completedActionIDs.includes(displayActionId);
+    let displaySpecificCard = displayActionId && Object.keys(completedActionIDs).map(Number).includes(displayActionId);
+
     return (
       <div style={{height: '100%'}} className={'Dash'}>
         <MenuBar
@@ -81,7 +104,7 @@ class Dashboard extends Component {
               : <RaisedButton
                   label='Back to all actions'
                   secondary={false}
-                  href={'/'}/>
+                  href={'/#/dashboard/'+municipalityName}/>
             }
             <ReportCardGrid
               displaySpecificCard={displaySpecificCard}
@@ -89,7 +112,9 @@ class Dashboard extends Component {
               categories={categories}
               completedActions={completedActions}
               completedActionIDs={completedActionIDs}
-              selectedCategoryID={selectedCategoryID}/>
+              handleBuildViz={this.handleBuildViz}
+              selectedCategoryID={selectedCategoryID}
+              municipalityName={name}/>
           </div>
          }
       </div>
@@ -106,11 +131,13 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
   return {
-    municipalityLoaded: bindActionCreators(municipalityLoaded, dispatch),
+    getMunicipality: bindActionCreators(getMunicipality, dispatch),
+    selectAction: bindActionCreators(selectAction, dispatch),
     selectCategory: bindActionCreators(selectCategory, dispatch),
     deselectCategory: bindActionCreators(deselectCategory, dispatch),
     actionEditorOpened: bindActionCreators(actionEditorOpened, dispatch),
     actionEditorClosed: bindActionCreators(actionEditorClosed, dispatch),
+    toggleActionEditor: bindActionCreators(toggleActionEditor, dispatch)
   }
 };
 

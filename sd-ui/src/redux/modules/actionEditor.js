@@ -1,6 +1,10 @@
+import api from '../services/api';
+import apiAdapter from '../middlewares/apiAdapter';
+
 // actions
 const ACTION_PREFIX = 'sustainability-dashboard/actionEditor/';
 
+export const ACTION_EDITOR_LOADED = ACTION_PREFIX + 'ACTION_EDITOR_LOADED';
 export const ACTION_EDITOR_OPENED = ACTION_PREFIX + 'ACTION_EDITOR_OPENED';
 export const ACTION_EDITOR_CLOSED = ACTION_PREFIX + 'ACTION_EDITOR_CLOSED';
 export const ACTION_EDITOR_SAVING = ACTION_PREFIX + 'ACTION_EDITOR_SAVING';
@@ -11,6 +15,16 @@ export const ACTION_EDITOR_VALUE_CHANGED = ACTION_PREFIX + 'ACTION_EDITOR_VALUE_
 export const ACTION_EDITOR_VISUALIZATION_VALUE_CHANGED = ACTION_PREFIX + 'ACTION_EDITOR_VISUALIZATION_VALUE_CHANGED';
 
 // action creators
+export function actionEditorLoaded(currentActionId = null, currentAction = null) {
+  return {
+    type: ACTION_EDITOR_LOADED,
+    payload: {
+      currentActionId,
+      currentAction
+    }
+  }
+}
+
 export function actionEditorOpened() {
   return {
     type: ACTION_EDITOR_OPENED
@@ -20,6 +34,15 @@ export function actionEditorOpened() {
 export function actionEditorClosed() {
   return {
     type: ACTION_EDITOR_CLOSED
+  };
+}
+
+export function actionEditorSaving(data) {
+  return {
+    type: ACTION_EDITOR_SAVING,
+    payload: {
+      data
+    }
   };
 }
 
@@ -56,22 +79,46 @@ export function actionEditorVisualizationValueChanged(key, value) {
   };
 };
 
+// thunks
+export function toggleActionEditor() {
+  return (dispatch, getState) => {
+    if (getState().actionEditor.actionEditorOpen) {
+      // close it and navigate to dashboard
+      dispatch(actionEditorClosed());
+
+    } else {
+      let currentActionId = getState().municipality.currentActionId;
+      let indexForActionId = getState().municipality.completedActionIDs[currentActionId];
+      if (currentActionId && currentActionId !== 0) {
+        dispatch(actionEditorLoaded(currentActionId,
+          getState().municipality.completedActions[indexForActionId]
+        ));
+      }
+      dispatch(actionEditorOpened());
+    }
+  }
+}
+
+export function save() {
+  return (dispatch, getState) => {
+    let savePayload = apiAdapter.stateToPost(getState(), 'action', 'POST');
+    dispatch(actionEditorSaving(savePayload));
+  }
+}
+
 // initial state
 const initialState = {
   actionEditorOpen: false,
+  isSaving: false,
+  savingPayload: null,
   actionData: {
     id: null,
-    name: "",
+    title: "",
     category: "",
     categoryId: null,
     description: "",
     image: "",
-    visualization: {
-      type: 'pie',
-      xAxisTitle: 'x-axis',
-      yAxisTitle: 'y-axis',
-      data: [],
-    }
+    visualization: {}
   }
 };
 
@@ -79,12 +126,30 @@ const initialState = {
 export default function reducer(state = initialState, action = {}) {
   let actionData = {};
   switch (action.type) {
+    case ACTION_EDITOR_LOADED:
+      return Object.assign({},
+        {...state},
+        { actionData: {
+            ...state.actionData,
+            ...action.payload.currentAction
+          }
+        }
+      );
     case ACTION_EDITOR_OPENED:
     case ACTION_EDITOR_CLOSED:
       let actionEditorOpen = state.actionEditorOpen;
       return Object.assign({},
         { ...state },
         { actionEditorOpen: !actionEditorOpen }
+      );
+
+    case ACTION_EDITOR_SAVING:
+      return Object.assign({},
+        { ...state },
+        {
+          isSaving: true,
+          savingPayload: action.payload.data
+        }
       );
 
     case ACTION_EDITOR_SAVED:

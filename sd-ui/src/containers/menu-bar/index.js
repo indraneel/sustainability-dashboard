@@ -16,7 +16,8 @@ class MenuBar extends Component {
       style.closeActionEditorButton
       : style.openActionEditorButton;
 
-    let actionEditorButton = <FloatingActionButton
+    let actionEditorButton = this.props.actionEditorOpen ?
+      <FloatingActionButton
         onTouchTap={this.props.toggleActionEditor}
         backgroundColor={this.props.actionEditorOpen ? COLORS.PURPLE.hex : COLORS.PINK.hex}
         className={actionEditorButtonClassName}>
@@ -24,7 +25,8 @@ class MenuBar extends Component {
           <NavigationClose />
           : <ContentAdd />
         }
-      </FloatingActionButton>;
+      </FloatingActionButton>
+      : null;
 
     return (
       <AppBar

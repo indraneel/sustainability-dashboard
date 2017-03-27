@@ -1,3 +1,5 @@
+import VISUALIZATION_ENTRY_FIELDS from './visualization-entry-fields';
+
 export default [
   {
     id: 1,
@@ -6,8 +8,7 @@ export default [
     description: "this is about env",
     visualization: {
       type: 'line',
-      xAxisTitle: 'x-axis',
-      yAxisTitle: 'y-axis',
+      entryFields: VISUALIZATION_ENTRY_FIELDS,
       data: [
         { x: new Date('2015-01-01T00:00:00-08:00'), y: 1 },
       	{ x: new Date('2015-01-02T00:00:00-08:00'), y: 0 },
@@ -23,13 +24,12 @@ export default [
     description: "this is about env",
     visualization: {
       type: 'pie',
-      xAxisTitle: 'x-axis',
-      yAxisTitle: 'y-axis',
+      entryFields: VISUALIZATION_ENTRY_FIELDS,
       data: [
-        { x: 'Leslie', y: 80 },
-        { x: 'Tom', y: 20 },
-        { x: 'Ron', y: 10 },
-        { x: 'Ann', y: 30 },
+        { label: 'Leslie', value: 80 },
+        { label: 'Tom', value: 20 },
+        { label: 'Ron', value: 10 },
+        { label: 'Ann', value: 30 },
       ],
     }
   },
@@ -40,29 +40,20 @@ export default [
     description: "this is about env",
     visualization: {
       type: 'text',
+      entryFields: VISUALIZATION_ENTRY_FIELDS,
       data: [
-        { line: 1, value: "June 27" },
-        { line: 2, value: "8-10am" },
-        { line: 3, value: "35 people" },
+        { line: "June 27" },
+        { line: "8-10am" },
+        { line: "35 people" },
       ],
     }
   },
   {
     id: 4,
-    title: "emissions",
+    title: "Complete Streets Program",
     category: "Governance",
     description: "this is about env",
-    visualization: {
-      type: 'pie',
-      xAxisTitle: 'x-axis',
-      yAxisTitle: 'y-axis',
-      data: [
-        { x: 'Leslie', y: 80 },
-        { x: 'Tom', y: 20 },
-        { x: 'Ron', y: 10 },
-        { x: 'Ann', y: 30 },
-      ],
-    }
+    visualization: {}
   },
   {
     id: 5,
@@ -71,13 +62,12 @@ export default [
     description: "this is about env",
     visualization: {
       type: 'pie',
-      xAxisTitle: 'x-axis',
-      yAxisTitle: 'y-axis',
+      entryFields: VISUALIZATION_ENTRY_FIELDS,
       data: [
-        { x: 'Leslie', y: 80 },
-        { x: 'Tom', y: 20 },
-        { x: 'Ron', y: 10 },
-        { x: 'Ann', y: 30 },
+        { label: 'Leslie', value: 80 },
+        { label: 'Tom', value: 20 },
+        { label: 'Ron', value: 10 },
+        { label: 'Ann', value: 30 },
       ],
     }
   },
@@ -88,13 +78,12 @@ export default [
     description: "this is about env",
     visualization: {
       type: 'pie',
-      xAxisTitle: 'x-axis',
-      yAxisTitle: 'y-axis',
+      entryFields: VISUALIZATION_ENTRY_FIELDS,
       data: [
-        { x: 'Leslie', y: 80 },
-        { x: 'Tom', y: 20 },
-        { x: 'Ron', y: 10 },
-        { x: 'Ann', y: 30 },
+        { label: 'Leslie', value: 80 },
+        { label: 'Tom', value: 20 },
+        { label: 'Ron', value: 10 },
+        { label: 'Ann', value: 30 },
       ],
     }
   },
@@ -105,13 +94,12 @@ export default [
     description: "this is about env",
     visualization: {
       type: 'pie',
-      xAxisTitle: 'x-axis',
-      yAxisTitle: 'y-axis',
+      entryFields: VISUALIZATION_ENTRY_FIELDS,
       data: [
-        { x: 'Leslie', y: 80 },
-        { x: 'Tom', y: 20 },
-        { x: 'Ron', y: 10 },
-        { x: 'Ann', y: 30 },
+        { label: 'Leslie', value: 80 },
+        { label: 'Tom', value: 20 },
+        { label: 'Ron', value: 10 },
+        { label: 'Ann', value: 30 },
       ],
     }
   },
@@ -122,13 +110,12 @@ export default [
     description: "this is about env",
     visualization: {
       type: 'pie',
-      xAxisTitle: 'x-axis',
-      yAxisTitle: 'y-axis',
+      entryFields: VISUALIZATION_ENTRY_FIELDS,
       data: [
-        { x: 'Leslie', y: 80 },
-        { x: 'Tom', y: 20 },
-        { x: 'Ron', y: 10 },
-        { x: 'Ann', y: 30 },
+        { label: 'Leslie', value: 80 },
+        { label: 'Tom', value: 20 },
+        { label: 'Ron', value: 10 },
+        { label: 'Ann', value: 30 },
       ],
     }
   },

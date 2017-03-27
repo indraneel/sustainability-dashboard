@@ -24,7 +24,9 @@ export default {
     backgroundColor: COLORS.BROWN.rgba
   },
   title: {
-
+    marginLeft: '10px',
+    fontSize: '14px',
+    fontWeight: 'bold'
   },
   subtitle: {
 
