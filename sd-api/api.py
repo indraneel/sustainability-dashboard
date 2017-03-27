@@ -46,7 +46,9 @@ def action():
         if 'action' not in params:
             missing.append('action')
         if 'category' not in params:
-            missing.apparend('category')
+            missing.append('category')
+        if 'visualization' not in params:
+            params['visualization'] = ''
         if missing:
             raise MissingKey(', '.join(missing))
         if 'id' in params:
@@ -56,17 +58,18 @@ def action():
 
 def get_town_actions(town_name):
     results = CertReports.query.with_entities \
-    (CertReports.report_id, CertReports.action, CertReports.category) \
+    (CertReports.report_id, CertReports.action, CertReports.category, CertReports.visualization) \
     .filter_by(town = town_name).all()
 
     return jsonify([ \
-    {'id': res[0], 'action': res[1], 'category': res[2]} \
+    {'id': res[0], 'action': res[1], 'category': res[2], 'visualization': res[3]} \
     for res in results])
 
 def add_town_action(params):
     action = CertReports(town = params['town'],
                          action = params['action'],
-                         category = params['category'])
+                         category = params['category'],
+                         visualization = params['visualization'])
     db.session.add(action)
     db.session.commit()
     return jsonify({'Action successfully added': params})
