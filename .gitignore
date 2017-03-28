@@ -5,20 +5,20 @@ __pycache__/
 *.py[cod]
 
 # dependencies
-sd-ui/node_modules
+ui/node_modules
 
 # testing
-sd-ui/coverage
+ui/coverage
 
 # production
-sd-ui/build
+ui/build
 
 # misc
 .DS_Store
 venv
 flask
 config.py
-sd-ui/.env
-sd-ui/npm-debug.log*
-sd-ui/yarn-debug.log*
-sd-ui/yarn-error.log*
+ui/.env
+ui/npm-debug.log*
+ui/yarn-debug.log*
+ui/yarn-error.log*
