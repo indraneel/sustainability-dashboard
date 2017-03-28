@@ -57,9 +57,9 @@ def action():
             return add_town_action(params)
 
 def get_town_actions(town_name):
-    results = CertReports.query.with_entities \
-    (CertReports.report_id, CertReports.action, CertReports.category, CertReports.visualization) \
-    .filter_by(town = town_name).all()
+    results = db.engine.execute('SELECT report_id, action, category, visualization \
+    FROM cert_reports WHERE town=%s AND cert_id IN (SELECT MAX(cert_id) \
+    FROM cert_reports WHERE town=%s);', (town_name, town_name))
 
     return jsonify([ \
     {'id': res[0], 'action': res[1], 'category': res[2], 'visualization': res[3]} \
