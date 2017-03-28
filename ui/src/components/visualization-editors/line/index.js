@@ -4,7 +4,7 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
-class BarVisualizationDataEntry extends Component {
+class LineVisualizationDataEntry extends Component {
   constructor(props) {
     super(props);
     this.handleVizEntryFieldChanged = this.handleVizEntryFieldChanged.bind(this);
@@ -12,7 +12,7 @@ class BarVisualizationDataEntry extends Component {
   }
 
   handleVizEntryValueAdded(e) {
-    this.props.visualizationEditorDataAdded('bar');
+    this.props.visualizationEditorDataAdded('line');
   }
 
   handleVizEntryFieldChanged(e, newValue) {
@@ -20,7 +20,7 @@ class BarVisualizationDataEntry extends Component {
       id: [e.target.id],
       newValue
     }
-    this.props.visualizationEditorEntryFieldChanged('bar', payload)
+    this.props.visualizationEditorEntryFieldChanged('line', payload)
   }
 
   render(){
@@ -34,7 +34,7 @@ class BarVisualizationDataEntry extends Component {
     let {
       xAxisField,
       yAxisField
-    } = entryFields.bar;
+    } = entryFields.line;
 
     if (!data) {
       return null;
@@ -84,14 +84,14 @@ class BarVisualizationDataEntry extends Component {
               <TextField
                 id={'xValue'}
                 fullWidth={true}
-                value={entryValues.bar.label}
+                value={entryValues.line.xAxisField}
                 onChange={this.handleVizEntryFieldChanged}/>
             </TableRowColumn>
             <TableRowColumn>
               <TextField
                 id={'yValue'}
                 fullWidth={true}
-                value={entryValues.bar.value}
+                value={entryValues.line.yAxisField}
                 onChange={this.handleVizEntryFieldChanged}/>
             </TableRowColumn>
           </TableRow>
@@ -105,4 +105,4 @@ class BarVisualizationDataEntry extends Component {
   }
 }
 
-export default BarVisualizationDataEntry;
+export default LineVisualizationDataEntry;

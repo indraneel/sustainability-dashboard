@@ -4,12 +4,12 @@ export default {
     yAxisField: 'value'
   },
   line: {
-    xAxisField: 'x-axis',
-    yAxisField: 'y-axis',
+    xAxisField: 'xValue',
+    yAxisField: 'yValue',
   },
   bar: {
-    xAxisField: 'x-axis',
-    yAxisField: 'y-axis',
+    xAxisField: 'xValue',
+    yAxisField: 'yValue',
   },
   text: {
     line: ''

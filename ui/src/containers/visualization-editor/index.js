@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { PieVisualizationDataEntry } from '../../components/visualization-editors';
+import {
+  PieVisualizationDataEntry,
+  BarVisualizationDataEntry,
+  LineVisualizationDataEntry
+} from '../../components/visualization-editors';
 
 import {
   visualizationEditorTypeChanged,
@@ -45,9 +49,11 @@ class VisualizationEditor extends Component {
         return <PieVisualizationDataEntry
           {...this.props}/>
       case 'bar':
-        // return this.renderBarDataEntry(type, data, xAxisTitle, yAxisTitle);
-      case 'text':
-        // return this.renderBigTextDataEntry(type, data);
+        return <BarVisualizationDataEntry
+          {...this.props}/>
+      case 'line':
+        return <LineVisualizationDataEntry
+          {...this.props}/>
       default:
         return null;
     }

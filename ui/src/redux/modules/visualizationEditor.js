@@ -120,6 +120,9 @@ export default function reducer(state = initialState, action = {}) {
       );
 
     case VISUALIZATION_EDITOR_ENTRY_FIELD_CHANGED:
+      let valueAsNumber = isNaN(Number(action.payload.value.newValue)) ?
+        action.payload.value.newValue
+        : Number(action.payload.value.newValue);
       return Object.assign({},
         {...state},
         {
@@ -127,7 +130,7 @@ export default function reducer(state = initialState, action = {}) {
             ...state.entryValues,
             [action.payload.key]: {
               ...state.entryValues[action.payload.key],
-              [action.payload.value.id]: action.payload.value.newValue
+              [action.payload.value.id]: valueAsNumber
             }
           }
         }

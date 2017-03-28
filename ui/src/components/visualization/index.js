@@ -45,6 +45,8 @@ class Visualization extends Component {
 				}}>
           {(width) => (
             <LineChart
+              xAxisField={entryFields[type].xAxisField}
+              yAxisFields={[entryFields[type].yAxisField]}
               width={width}
               height={width}
               xAxisTitle={xAxisField}
@@ -60,6 +62,8 @@ class Visualization extends Component {
 				}}>
           {(width) => (
             <BarChart
+              xAxisField={entryFields[type].xAxisField}
+              yAxisFields={[entryFields[type].yAxisField]}
               width={width}
               height={width}
               xAxisTitle={xAxisField}
