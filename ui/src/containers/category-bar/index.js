@@ -24,7 +24,7 @@ class CategoryBar extends Component {
   render() {
     return (
       <div style={style.root}>
-        <div style={style.title}>Haddonfield Action Breakdown</div>
+        <div style={style.title}>{this.props.municipalityName} Action Breakdown</div>
         <div style={style.bar}>
           {this.props.categories.map((category) => (
             <CategoryBarSection

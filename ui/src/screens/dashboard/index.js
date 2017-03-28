@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import RaisedButton from 'material-ui/RaisedButton';
+import LinearProgress from 'material-ui/LinearProgress';
 
 import MenuBar from '../../containers/menu-bar';
 import CategoryBar from '../../containers/category-bar';
@@ -75,7 +76,8 @@ class Dashboard extends Component {
         completedActionIDs,
         categoryIDs,
         categories,
-        selectedCategoryID
+        selectedCategoryID,
+        isFetching
       },
       actionEditor: {
         actionEditorOpen
@@ -91,12 +93,18 @@ class Dashboard extends Component {
           municipalityName={name}
           toggleActionEditor={this.handleToggleActionEditor}
           actionEditorOpen={actionEditorOpen}/>
+        {
+          isFetching ?
+          <LinearProgress mode="indeterminate" />
+          : null
+        }
         {actionEditorOpen ?
           <ActionEditor />
           :
           <div>
             { !displaySpecificCard ?
               <CategoryBar
+                municipalityName={name}
                 categories={categories}
                 categoryIDs={categoryIDs}
                 handleSelectCategory={this.handleSelectCategory}
