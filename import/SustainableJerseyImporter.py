@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-
-import config, requests, json, re, datetime, MySQLdb, pandas
+import os, sys, requests, json, re, datetime, MySQLdb, pandas
 from dateutil.parser import parse
 from bs4 import BeautifulSoup
+sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '../..'))
+from sd import config
 
 class SustainableJerseyImporter:
     baseURL = 'http://www.sustainablejersey.com'
@@ -53,15 +54,17 @@ class SustainableJerseyImporter:
 
                 try:
                     self.cur.execute("""INSERT INTO cert_reports
-                    (town, action, category, assets, contact, summary, date, points)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
+                    (town, action, category, assets, contact, summary, date, points, cert_id)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
                     (report['town'], actName, catName, assets, report['contact'], \
-                     summary, report['date'], report['points']))
+                     summary, report['date'], report['points'], self.certId))
                     self.db.commit()
 
                     self.cur.execute("""INSERT INTO report_files
                     (report_file) VALUES (%s)""", (report['report'],))
                     self.db.commit()
+                except MySQLdb.IntegrityError as e:
+                    self.db.rollback()
                 except (MySQLdb.Error, MySQLdb.Warning) as e:
                     print(e)
                     self.db.rollback()
@@ -82,7 +85,7 @@ class SustainableJerseyImporter:
         raise LookupError('Town name not found!', self.certId, intro)
 
     def getAllTownNames(self):
-        data = pandas.read_csv('nj-municipalities.csv')
+        data = pandas.read_csv(os.path.dirname(__file__) + '/nj-municipalities.csv')
         self.towns = set(data.name)
 
     def getReportPDF(self, page):

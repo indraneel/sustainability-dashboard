@@ -29,6 +29,7 @@ class CertReports(Table, db.Model):
     points = db.Column(db.SMALLINT)
     date = db.Column(db.Date)
     visualization = db.Column(db.Text)
+    cert_id = db.Column(db.Integer, nullable=False)
 
 class ReportFiles(Table, db.Model):
     __tablename__ = 'report_files'
