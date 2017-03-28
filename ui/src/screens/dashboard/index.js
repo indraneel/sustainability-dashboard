@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import style from './dashboard-style.js';
 import RaisedButton from 'material-ui/RaisedButton';
 import LinearProgress from 'material-ui/LinearProgress';
 
@@ -88,7 +89,7 @@ class Dashboard extends Component {
     let displaySpecificCard = displayActionId && Object.keys(completedActionIDs).map(Number).includes(displayActionId);
 
     return (
-      <div style={{height: '100%'}} className={'Dash'}>
+      <div style={style.root} className={'Dash'}>
         <MenuBar
           municipalityName={name}
           toggleActionEditor={this.handleToggleActionEditor}

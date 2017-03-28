@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import Paper from 'material-ui/Paper';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
@@ -65,7 +66,7 @@ class Form extends Component {
     })
 
     return (
-
+    <Paper style={style.paper}>
       <div style={style.root} className={'Dash-ActionEditor-Form'}>
         <div style={style.section}>
           <SelectField
@@ -130,6 +131,7 @@ class Form extends Component {
             onTouchTap={this.props.handleSave}/>
         </div>
       </div>
+      </Paper>
     )
   }
 }

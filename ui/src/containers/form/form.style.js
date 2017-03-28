@@ -1,4 +1,8 @@
 export default {
+  paper: {
+    maxWidth: '700px',
+    margin: '0 auto'
+  },
   root: {
     display: 'flex',
     flexDirection: 'column',

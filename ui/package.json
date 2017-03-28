@@ -6,6 +6,7 @@
     "react-scripts": "0.9.0"
   },
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
     "lucid-ui": "^2.15.2",
     "material-ui": "^0.17.1",
     "react": "^15.4.2",
@@ -18,7 +19,8 @@
     "react-vis": "^1.0.1",
     "redux": "^3.6.0",
     "redux-devtools-extension": "^2.13.0",
-    "redux-logger": "^2.8.1"
+    "redux-logger": "^2.8.1",
+    "redux-thunk": "^2.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
