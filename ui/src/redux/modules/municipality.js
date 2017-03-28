@@ -10,7 +10,7 @@ import CategoryData from '../../constants/categories';
 import CompletedActions from '../../constants/completed-actions';
 
 // actions
-const ACTION_PREFIX = 'sustainability-dashboard/municipality/';
+const ACTION_PREFIX = 'sd/municipality/';
 
 const DASHBOARD_LOADED = ACTION_PREFIX + 'DASHBOARD_LOADED';
 

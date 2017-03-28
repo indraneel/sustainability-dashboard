@@ -4,7 +4,7 @@ import {
 } from './actionEditor';
 
 // actions
-const ACTION_PREFIX = 'sustainability-dashboard/visualizationEditor/';
+const ACTION_PREFIX = 'sd/visualizationEditor/';
 
 export const VISUALIZATION_EDITOR_TYPE_CHANGED = ACTION_PREFIX + 'VISUALIZATION_EDITOR_TYPE_CHANGED';
 export const VISUALIZATION_EDITOR_DATA_CHANGED = ACTION_PREFIX + 'VISUALIZAION_EDITOR_DATA_CHANGED';

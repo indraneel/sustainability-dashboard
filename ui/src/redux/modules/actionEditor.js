@@ -2,7 +2,7 @@ import api from '../services/api';
 import apiAdapter from '../middlewares/apiAdapter';
 
 // actions
-const ACTION_PREFIX = 'sustainability-dashboard/actionEditor/';
+const ACTION_PREFIX = 'sd/actionEditor/';
 
 export const ACTION_EDITOR_LOADED = ACTION_PREFIX + 'ACTION_EDITOR_LOADED';
 export const ACTION_EDITOR_OPENED = ACTION_PREFIX + 'ACTION_EDITOR_OPENED';
