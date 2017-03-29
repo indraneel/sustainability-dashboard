@@ -65,7 +65,7 @@ export function visualizationEditorEntryFieldChanged(key, value) {
 
 // initial state
 const initialState = {
-  type: 'pie',
+  type: null,
   data: [],
   entryFields: VISUALIZATION_ENTRY_FIELDS,
   entryValues: {

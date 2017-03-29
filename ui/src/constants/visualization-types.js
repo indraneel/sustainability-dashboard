@@ -10,13 +10,13 @@ export default {
   BAR:  {
     title: 'Bar Chart',
     type: 'bar'
-  },
-  MAP: {
-    title: 'Map',
-    type: 'map'
-  },
-  TEXT: {
-    title: 'Text',
-    type: 'text'
   }
 };
+// MAP: {
+//   title: 'Map',
+//   type: 'map'
+// },
+// TEXT: {
+//   title: 'Text',
+//   type: 'text'
+// }
