@@ -11,7 +11,10 @@ export default {
   social: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    empty: {
+      height: '32px'
+    }
   },
   permalink: {
     marginLeft: 'auto'
@@ -19,8 +22,9 @@ export default {
   viz: {
   },
   titleBar: {
-    flex: '1',
+    marginTop: 'auto',
     minHeight: '50px',
+    maxHeight: '100px',
     backgroundColor: COLORS.BROWN.rgba
   },
   title: {

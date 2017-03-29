@@ -7,24 +7,6 @@ import ReportCardTile from '../../components/report-card-tile';
 import CategoryMapper from '../../constants/category-map';
 
 class ReportCardGrid extends Component {
-  generateViz() {
-    return (
-       <RadialChart
-        innerRadius={100}
-        radius={140}
-        data={[
-          {angle: 2},
-          {angle: 6},
-          {angle: 2},
-          {angle: 3},
-          {angle: 1}
-        ]}
-        width={300}
-        height={300}
-      />
-    );
-  }
-
   renderTiles(selectedCategory, completedActions, displaySpecificCard, displayCardId, municipalityName) {
     let output = [];
 

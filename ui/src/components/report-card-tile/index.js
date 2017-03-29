@@ -41,35 +41,38 @@ class ReportCardTile extends Component {
       visualization
     } = this.props.actionData;
 
-    const shareUrl = '/#/dashboard/'+this.props.municipalityName+'/'+id;
+    const shareUrl = 'app.indraneel.org/#/dashboard/'+this.props.municipalityName+'/'+id;
     return (
       <Paper style={style.root}>
-        <div style={style.social}>
-          <FacebookShareButton
-            url={shareUrl}>
-            <FacebookIcon size={32}/>
-          </FacebookShareButton>
-          <TwitterShareButton
-            url={shareUrl}>
-            <TwitterIcon size={32}/>
-          </TwitterShareButton>
-          <WhatsappShareButton
-            url={shareUrl}>
-            <WhatsappIcon size={32}/>
-          </WhatsappShareButton>
-          <PinterestShareButton
-            url={shareUrl}>
-            <PinterestIcon size={32}/>
-          </PinterestShareButton>
-          <LinkedinShareButton
-            url={shareUrl}>
-            <LinkedinIcon size={32}/>
-          </LinkedinShareButton>
+        { !isEmpty(visualization) ?
+          <div style={style.social}>
+                <FacebookShareButton
+                  url={shareUrl}>
+                  <FacebookIcon size={32}/>
+                </FacebookShareButton>
+                <TwitterShareButton
+                  url={shareUrl}>
+                  <TwitterIcon size={32}/>
+                </TwitterShareButton>
+                <WhatsappShareButton
+                  url={shareUrl}>
+                  <WhatsappIcon size={32}/>
+                </WhatsappShareButton>
+                <PinterestShareButton
+                  url={shareUrl}>
+                  <PinterestIcon size={32}/>
+                </PinterestShareButton>
+                <LinkedinShareButton
+                  url={shareUrl}>
+                  <LinkedinIcon size={32}/>
+                </LinkedinShareButton>
 
-          <a href={shareUrl} style={style.permalink}>
-            <ContentLink />
-          </a>
-        </div>
+            <a href={shareUrl} style={style.permalink}>
+              <ContentLink />
+            </a>
+          </div>
+          : <div style={style.social.empty} />
+        }
 
         <Divider />
         <div style={style.viz}>
@@ -80,8 +83,8 @@ class ReportCardTile extends Component {
           }
 
         </div>
-        <Divider />
         <div style={style.titleBar}>
+          <Divider />
           <div style={style.title}>{action}</div>
         </div>
       </Paper>
