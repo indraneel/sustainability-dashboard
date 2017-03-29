@@ -9,11 +9,6 @@ app.config.from_pyfile('../config.py')
 cors = CORS(app, resources=app.config['CORS_SETTINGS'])
 db.init_app(app)
 
-@app.route('/report', methods = ['GET'])
-def get_reports():
-    reports = CertReports.query
-    return Table.list_json(reports)
-
 @app.route('/<string:endpoint>', methods = ['GET'])
 def get_column(endpoint):
     columns = CertReports.__table__.columns
@@ -21,6 +16,18 @@ def get_column(endpoint):
         abort(404)
 
     return CertReports().get_column(columns[endpoint])
+
+@app.route('/report', methods = ['GET'])
+def get_reports():
+    reports = CertReports.query
+    return Table.list_json(reports)
+
+@app.route('/town', methods = ['GET'])
+def get_towns():
+    results = db.engine.execute('SELECT town, COUNT(DISTINCT action) \
+    FROM cert_reports GROUP BY town;')
+
+    return jsonify([{'town': res[0], 'action_count': res[1]} for res in results])
 
 @app.route('/action', methods = ['GET', 'POST'])
 def action():
