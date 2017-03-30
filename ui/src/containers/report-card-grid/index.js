@@ -4,6 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 import style from './report-card-grid.style.js';
 import ReportCardTile from '../../components/report-card-tile';
 import CategoryMapper from '../../constants/category-map';
+import {LoadingIndicator} from 'lucid-ui';
 
 class ReportCardGrid extends Component {
   renderTiles(selectedCategory, completedActions, displaySpecificCard, displayCardId, municipalityName) {
@@ -91,14 +92,16 @@ class ReportCardGrid extends Component {
 
     return (
       <div style={style.root}>
-        <GridList
-          cellHeight={300}
-          cols={displaySpecificCard ? 1 : 3}
-          padding={25}
-          style={style.gridList}
-        >
-        {tiles}
-        </GridList>
+        <LoadingIndicator isLoading={this.props.isFetching}>
+          <GridList
+            cellHeight={'auto'}
+            cols={displaySpecificCard ? 1 : 3}
+            padding={25}
+            style={style.gridList}
+          >
+          {tiles}
+          </GridList>
+        </LoadingIndicator>
       </div>
     );
   }

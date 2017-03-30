@@ -58,6 +58,9 @@ export default {
   LIGHT_GRAY: {
     hex: '#EEEEEE'
   },
+  DARK_GRAY: {
+    hex: '#595959'
+  },
   ORANGE: {
     hex: '#F08700'
   },

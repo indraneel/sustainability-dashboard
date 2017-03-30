@@ -3,7 +3,7 @@ export default [
   {
     categoryId: 1,
     title: 'Community',
-    color: 'LIGHT_GREEN'
+    color: 'MINT_GREEN'
   },
   {
     categoryId: 2,
@@ -13,12 +13,12 @@ export default [
   {
     categoryId: 3,
     title: 'Governance',
-    color: 'BEIGE'
+    color: 'LIGHT_RED'
   },
   {
     categoryId: 4,
     title: 'Energy + Natural Resources',
-    color: 'LIGHT_BLUE'
+    color: 'BRIGHT_BLUE'
   },
   {
     categoryId: 5,
@@ -28,7 +28,7 @@ export default [
   {
     categoryId: 6,
     title: 'Business + Development',
-    color: 'PURPLE'
+    color: 'SILVER'
   },
   {
     categoryId: 7,

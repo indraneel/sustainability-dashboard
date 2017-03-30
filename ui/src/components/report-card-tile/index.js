@@ -13,7 +13,9 @@ import {
 } from 'react-share';
 
 import style from '../tile-style.js';
-
+import CategoryMapper from '../../constants/category-map';
+import categories from '../../constants/categories';
+import COLORS from '../../constants/colors';
 import Visualization from '../visualization';
 import VisualizationPlaceholder from '../visualization/placeholder';
 
@@ -40,6 +42,13 @@ class ReportCardTile extends Component {
       action,
       visualization
     } = this.props.actionData;
+    const mappedCategory = CategoryMapper(category);
+    let colorForCategory = '';
+    categories.forEach((obj) => {
+      if (obj.title === mappedCategory) {
+        colorForCategory = COLORS[obj.color].hex;
+      }
+    });
 
     const shareUrl = '/dashboard/'+this.props.municipalityName+'/'+id;
     return (
@@ -83,7 +92,7 @@ class ReportCardTile extends Component {
           }
 
         </div>
-        <div style={style.titleBar}>
+        <div style={{...style.titleBar}, {backgroundColor: colorForCategory}}>
           <Divider />
           <div style={style.title}>{action}</div>
         </div>

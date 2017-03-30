@@ -108,18 +108,18 @@ class Dashboard extends Component {
           <div style={style.content}>
             { !displaySpecificCard ?
               <div>
-                <LoadingIndicator isLoading={isFetchingStats}>
-                  <MunicipalityStats
+                <MunicipalityStats
                   municipalityName={municipalityName}
-                  stats={stats}/>
-                </LoadingIndicator>
+                  stats={stats}
+                  isFetchingStats={isFetchingStats}/>
                 <Divider />
                 <CategoryBar
                   municipalityName={name}
                   categories={categories}
                   categoryIDs={categoryIDs}
                   handleSelectCategory={this.handleSelectCategory}
-                  selectedCategoryID={selectedCategoryID}/>
+                  selectedCategoryID={selectedCategoryID}
+                  isFetching={isFetching}/>
               </div>
               : null
             }
@@ -132,7 +132,8 @@ class Dashboard extends Component {
               completedActionIDs={completedActionIDs}
               handleBuildViz={this.handleBuildViz}
               selectedCategoryID={selectedCategoryID}
-              municipalityName={name}/>
+              municipalityName={name}
+              isFetching={isFetching}/>
             </LoadingIndicator>
           </div>
          }

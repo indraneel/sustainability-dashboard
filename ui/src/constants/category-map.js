@@ -42,7 +42,7 @@ const categoryMap = {
 };
 
 const CategoryMapper = (category) => {
-  return categoryMap[category] ?
+  return Object.keys(categoryMap).includes(category) ?
     categoryMap[category]
     : '';
 }

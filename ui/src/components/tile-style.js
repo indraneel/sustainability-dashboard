@@ -6,7 +6,6 @@ export default {
     flexDirection: 'column',
     maxWidth: '400px',
     maxHeight: '500px',
-    padding: '10px'
   },
   social: {
     display: 'flex',
@@ -40,7 +39,8 @@ export default {
     fontSize: '25px',
     lineHeight: '37px',
     fontWeight: 'bold',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    color: COLORS.DARK_GRAY.hex
   },
   subtitle: {
 

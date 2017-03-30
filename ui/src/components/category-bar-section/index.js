@@ -21,7 +21,7 @@ class CategoryBarSection extends Component {
     } = this.props;
 
     let zDepth = 1;
-    let colorStyle = { borderColor: color };
+    let colorStyle = { color: color };
 
     if (categoryId === selectedCategoryID) {
       zDepth = 0;
@@ -32,7 +32,7 @@ class CategoryBarSection extends Component {
       <Paper style={{...style.root, ...colorStyle}}
         zDepth={zDepth}
         onClick={this.toggleAction}>
-        <div style={style.title}>{this.props.title}</div>
+        <div style={{...style.title, ...colorStyle}}>{this.props.title}</div>
         <div style={style.percentage}>{this.props.percentage}</div>
       </Paper>
     )
