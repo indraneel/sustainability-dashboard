@@ -23,14 +23,33 @@ def get_reports():
     return Table.list_json(reports)
 
 @app.route('/town', methods = ['GET'])
+def town_endpoint():
+    if not request.args:
+        return get_towns()
+
+    if not request.args.get('name'):
+        raise MissingKey('name')
+
+    town = request.args.get('name')
+
+    if not town_exists(town):
+        raise NotFound(town)
+
+def action_count_viz(town):
+    pass
+
+def category_count_viz(town):
+    pass
+
+
 def get_towns():
-    results = db.engine.execute('SELECT town, COUNT(DISTINCT action) \
+    results = db.engine.execute('SELECT town, SUM(points) \
     FROM cert_reports GROUP BY town;')
 
-    return jsonify([{'town': res[0], 'action_count': res[1]} for res in results])
+    return jsonify([{'town': res[0], 'points': str(res[1])} for res in results])
 
 @app.route('/action', methods = ['GET', 'POST'])
-def action():
+def action_endpoint():
     if not request.args and request.method == 'GET':
         return get_column('action')
 
@@ -38,10 +57,8 @@ def action():
         raise MissingKey('town')
 
     town = request.args.get('town')
-    towns = CertReports.query.with_entities(CertReports.town) \
-    .distinct(CertReports.town).all()
 
-    if not [t[0] for t in towns if t[0] == town]:
+    if not town_exists(town):
         raise NotFound(town)
 
     if request.method == 'GET':
@@ -64,13 +81,18 @@ def action():
             return add_town_action(params)
 
 def get_town_actions(town_name):
-    results = db.engine.execute('SELECT report_id, action, category, visualization \
-    FROM cert_reports WHERE town=%s AND cert_id IN (SELECT MAX(cert_id) \
-    FROM cert_reports WHERE town=%s);', (town_name, town_name))
+    results = db.engine.execute(
+        'SELECT report_id, action, category, assets, visualization \
+        FROM cert_reports WHERE town=%s AND cert_id IN (SELECT MAX(cert_id) \
+        FROM cert_reports WHERE town=%s);', (town_name, town_name))
 
-    return jsonify([ \
-    {'id': res[0], 'action': res[1], 'category': res[2], 'visualization': res[3]} \
-    for res in results])
+    return jsonify([{
+        'id': res[0],
+        'action': res[1],
+        'category': res[2],
+        'assets': res[3],
+        'visualization': res[4]}
+        for res in results])
 
 def add_town_action(params):
     action = CertReports(town = params['town'],
@@ -87,6 +109,12 @@ def update_town_action(params):
     CertReports.query.filter_by(report_id = params['report_id']).update(params)
     db.session.commit()
     return jsonify({'Action successfully updated': params})
+
+def town_exists(town):
+    towns = CertReports.query.with_entities(CertReports.town) \
+    .distinct(CertReports.town).all()
+
+    return [t[0] for t in towns if t[0] == town]
 
 @app.errorhandler(NotFound)
 def handle_not_found(error):
