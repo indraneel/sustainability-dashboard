@@ -12,7 +12,7 @@ import {
   generateShareIcon
 } from 'react-share';
 
-import style from './report-card-tile.style.js';
+import style from '../tile-style.js';
 
 import Visualization from '../visualization';
 import VisualizationPlaceholder from '../visualization/placeholder';
@@ -41,7 +41,7 @@ class ReportCardTile extends Component {
       visualization
     } = this.props.actionData;
 
-    const shareUrl = 'app.indraneel.org/#/dashboard/'+this.props.municipalityName+'/'+id;
+    const shareUrl = '/dashboard/'+this.props.municipalityName+'/'+id;
     return (
       <Paper style={style.root}>
         { !isEmpty(visualization) ?
@@ -71,7 +71,7 @@ class ReportCardTile extends Component {
               <ContentLink />
             </a>
           </div>
-          : <div style={style.social.empty} />
+          : <VisualizationPlaceholder id={id} handleBuildViz={this.props.handleBuildViz}/>
         }
 
         <Divider />
@@ -79,7 +79,7 @@ class ReportCardTile extends Component {
           {
               !isEmpty(visualization) ?
               <Visualization visualization={visualization}/>
-              : <VisualizationPlaceholder id={id} handleBuildViz={this.props.handleBuildViz}/>
+              : null
           }
 
         </div>

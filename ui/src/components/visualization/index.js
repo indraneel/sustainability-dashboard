@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import map from 'lodash/map';
+import isEmpty from 'lodash/isEmpty';
+
 import style from './visualization.style.js';
 import BigTextVisualization from './big-text';
 import {RadialChart} from 'react-vis';
@@ -22,6 +25,31 @@ class Visualization extends Component {
       data,
       entryFields
     } = this.props.visualization;
+
+    // hack to match stats api endpoint
+    if (!entryFields) {
+      entryFields = {
+        pie: {
+          xAxisField: 'x',
+          yAxisField: 'y'
+        },
+        bar: {
+          xAxisField: 'x',
+          yAxisField: 'y'
+        },
+        line: {
+          xAxisField: 'x',
+          yAxisField: 'y'
+        }
+      };
+    }
+
+    xAxisField = xAxisField || 'x';
+    yAxisField = yAxisField || 'y';
+
+    // another api hack => convert string to Date for line
+
+
     switch (type) {
       case 'pie':
         return <Resizer style={{
@@ -35,10 +63,27 @@ class Visualization extends Component {
               width={width}
               height={width}
               data={data}
-              palette={palette}/>
+              palette={palette}>
+              { !isEmpty(data) ?
+                <Legend>
+                  {map(data, (d, index) => (
+                    <Legend.Item
+                    key={index}
+                    color={palette[index % palette.length]}
+                    hasPoint
+                    pointKind={1}
+                    >
+                    {d.x}
+                    </Legend.Item>
+                  ))}
+                </Legend>
+                : null
+              }
+            </PieChart>
           )}
         </Resizer>;
       case 'line':
+
         return <Resizer style={{
 					flexGrow: 1,
 					overflow: 'hidden',

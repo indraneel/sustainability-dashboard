@@ -3,11 +3,13 @@ export default {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
+    marginTop: '40px'
   },
   gridList: {
-    width: '900px',
+    width: '800px',
+    height: 800,
   },
   gridTile: {
-    width: '500'
+    width: '300'
   }
 };

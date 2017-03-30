@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {GridList, GridTile} from 'material-ui/GridList';
 
 import style from './report-card-grid.style.js';
-import {RadialChart} from 'react-vis';
 import ReportCardTile from '../../components/report-card-tile';
 import CategoryMapper from '../../constants/category-map';
 
@@ -23,13 +22,14 @@ class ReportCardGrid extends Component {
       }
       else {
         if (selectedCategory) {
-            if (selectedCategory.title === CategoryMapper(actionData.category)) {
-              output.push(<ReportCardTile
-                key={index}
-                actionData={actionData}
-                municipalityName={municipalityName}
-                handleBuildViz={this.props.handleBuildViz}/>);
-            }
+          let mappedCategory = CategoryMapper(actionData.category);
+          if (selectedCategory.title === mappedCategory) {
+            output.push(<ReportCardTile
+              key={index}
+              actionData={actionData}
+              municipalityName={municipalityName}
+              handleBuildViz={this.props.handleBuildViz}/>);
+          }
         } else {
           output.push(<ReportCardTile
             key={index}
@@ -45,7 +45,7 @@ class ReportCardGrid extends Component {
   render() {
     let selectedCategory = null;
     if (this.props.selectedCategoryID) {
-      selectedCategory = this.props.categories[this.props.selectedCategoryID];
+      selectedCategory = this.props.categories[this.props.selectedCategoryID-1];
     }
     let displaySpecificCard = this.props.displayActionId && Object.keys(this.props.completedActionIDs).map(Number).includes(this.props.displayActionId);
     let tiles = this.renderTiles(selectedCategory, this.props.completedActions, displaySpecificCard, this.props.displayActionId, this.props.municipalityName);
@@ -53,8 +53,8 @@ class ReportCardGrid extends Component {
     return (
       <div style={style.root}>
         <GridList
-          cellHeight={325}
-          cols={3}
+          cellHeight={350}
+          cols={displaySpecificCard ? 1 : 3}
           padding={25}
           style={style.gridList}
         >

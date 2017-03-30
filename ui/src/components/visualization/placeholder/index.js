@@ -7,8 +7,8 @@ class VisualizationPlaceholder extends Component {
   render() {
     return <div style={style.root}>
       <FlatButton
-        label='Build Visualization'
-        onTouchTap={(e) => this.props.handleBuildViz(this.props.id)}/>
+        label='Add a Visualization!'
+        onTouchTap={(e) => setTimeout(this.props.handleBuildViz(this.props.id), 8000)}/>
     </div>
   }
 }

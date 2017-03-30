@@ -5,6 +5,10 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import {List, ListItem} from 'material-ui/List';
+import Divider from 'material-ui/Divider';
+import Subheader from 'material-ui/Subheader';
+import FileAttachment from 'material-ui/svg-icons/file/attachment';
 
 import style from './form.style.js';
 import FormSection from '../../components/form-section';
@@ -39,6 +43,7 @@ class Form extends Component {
       categoryId,
       description,
       image,
+      assets,
     } = this.props.actionData;
 
     let mappedCategory = CategoryMapper(category);
@@ -63,7 +68,20 @@ class Form extends Component {
         id={'visualization'}
         value={VIZ_TYPES[viz].type}
         primaryText={VIZ_TYPES[viz].title}/>);
-    })
+    });
+
+    let assetList = [
+      <Subheader inset={true}>Attachments</Subheader>
+    ];
+    Object.keys(assets).forEach((filename) => {
+      assetList.push(
+        <ListItem
+          primaryText={filename}
+          leftAvatar={<FileAttachment />}>
+        </ListItem>
+      );
+    });
+    assetList.push(<Divider />);
 
     return (
     <Paper style={style.paper}>
@@ -97,6 +115,11 @@ class Form extends Component {
             value={description}
             onChange={this.handleValueChanged}
             fullWidth={true}/>
+        </div>
+        <div style={style.section}>
+          <List>
+            {assetList}
+          </List>
         </div>
         <div style={style.section}>
           <SelectField

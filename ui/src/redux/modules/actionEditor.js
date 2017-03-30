@@ -118,7 +118,8 @@ const initialState = {
     categoryId: null,
     description: "",
     image: "",
-    visualization: {}
+    visualization: {},
+    assets: {}
   }
 };
 

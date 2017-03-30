@@ -7,7 +7,7 @@ export default [
   },
   {
     categoryId: 2,
-    title: 'Waste & Pollution',
+    title: 'Waste + Pollution',
     color: 'GREEN'
   },
   {
@@ -17,7 +17,7 @@ export default [
   },
   {
     categoryId: 4,
-    title: 'Energy & Natural Resources',
+    title: 'Energy + Natural Resources',
     color: 'LIGHT_BLUE'
   },
   {
@@ -27,7 +27,7 @@ export default [
   },
   {
     categoryId: 6,
-    title: 'Business & Development',
+    title: 'Business + Development',
     color: 'PURPLE'
   },
   {

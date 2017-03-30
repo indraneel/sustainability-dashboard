@@ -19,5 +19,8 @@ export default {
   },
   closeActionEditorButton: {
     cursor: 'pointer',
+  },
+  searchBar: {
+    flex: '1'
   }
 }

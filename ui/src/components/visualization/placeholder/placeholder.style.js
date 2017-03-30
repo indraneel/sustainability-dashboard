@@ -1,6 +1,6 @@
 export default {
   root: {
-    minHeight: '200px',
+    height: '32px',
     width: '100%',
     display: 'flex',
     flexDirection: 'column',

@@ -19,6 +19,10 @@ const MUNICIPALITY_INVALIDATED = ACTION_PREFIX + 'MUNICIPALITY_INVALIDATED';
 const MUNICIPALITY_REQUESTED = ACTION_PREFIX + 'MUNICIPALITY_REQUESTED';
 const MUNICIPALITY_RECEIVED = ACTION_PREFIX + 'MUNICIPALITY_RECEIVED';
 
+const STATS_INVALIDATED = ACTION_PREFIX + 'STATS_INVALIDATED';
+const STATS_REQUESTED = ACTION_PREFIX + 'STATS_REQUESTED';
+const STATS_RECEIVED = ACTION_PREFIX + 'STATS_RECEIVED';
+
 const MUNICIPALITY_SELECT_ACTION = ACTION_PREFIX + 'SELECT_ACTION';
 const MUNICIPALITY_SELECT_CATEGORY = ACTION_PREFIX + 'SELECT_CATEGORY';
 const MUNICIPALITY_DESELECT_CATEGORY = ACTION_PREFIX + 'DESELECT_CATEGORY';
@@ -57,6 +61,30 @@ export function municipalityRequested(municipalityName) {
 export function municipalityReceived(municipalityName, response) {
   return {
     type: MUNICIPALITY_RECEIVED,
+    payload: {
+      response
+    }
+  };
+}
+
+export function statsInvalidated() {
+  return {
+    type: STATS_INVALIDATED
+  };
+}
+
+export function statsRequested(municipalityName) {
+  return {
+    type: STATS_REQUESTED,
+    payload: {
+      municipalityName
+    }
+  };
+}
+
+export function statsReceived(municipalityName, response) {
+  return {
+    type: STATS_RECEIVED,
     payload: {
       response
     }
@@ -102,6 +130,17 @@ export function getMunicipality(municipalityName) {
   }
 }
 
+export function getStats(municipalityName) {
+  if (municipalityName) {
+    return dispatch => {
+      dispatch(statsRequested(municipalityName));
+      return api('stats', 'GET', {town: municipalityName})
+      .then(response => response.json())
+      .then(json => dispatch(statsReceived(municipalityName, json)));
+    }
+  }
+}
+
 // initial state
 const initialState = {
   isFetching: false,
@@ -116,7 +155,9 @@ const initialState = {
     return arr.concat(Category.categoryId);
   }, []),
   totalPoints: 0,
-  selectedCategoryID: null
+  selectedCategoryID: null,
+  isFetchingStats: null,
+  stats: []
 };
 
 // reducer
@@ -207,6 +248,23 @@ export default function reducer(state = initialState, action = {}) {
         { ...state },
         {
           name: action.payload.municipalityName
+        }
+      );
+
+    case STATS_REQUESTED:
+      return Object.assign({},
+        { ...state },
+        {
+          isFetchingStats: true
+        }
+      );
+
+    case STATS_RECEIVED:
+      return Object.assign({},
+        { ...state },
+        {
+          isFetchingStats: false,
+          stats: action.payload.response.stats
         }
       );
 

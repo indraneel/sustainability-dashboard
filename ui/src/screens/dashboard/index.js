@@ -5,9 +5,11 @@ import { bindActionCreators } from 'redux';
 import style from './dashboard-style.js';
 import RaisedButton from 'material-ui/RaisedButton';
 import LinearProgress from 'material-ui/LinearProgress';
+import Divider from 'material-ui/Divider';
 
 import MenuBar from '../../containers/menu-bar';
 import CategoryBar from '../../containers/category-bar';
+import MunicipalityStats from '../../containers/municipality-stats';
 
 import ReportCardGrid from '../../containers/report-card-grid';
 import ActionEditor from '../action-editor';
@@ -15,6 +17,7 @@ import {
   selectCategory,
   deselectCategory,
   getMunicipality,
+  getStats,
   selectAction
 } from '../../redux/modules/municipality';
 import {
@@ -34,6 +37,7 @@ class Dashboard extends Component {
   componentDidMount() {
     const {
       getMunicipality,
+      getStats,
       location: {
         pathname
       },
@@ -43,6 +47,7 @@ class Dashboard extends Component {
     } = this.props;
 
     getMunicipality(municipalityName);
+    getStats(municipalityName);
   }
 
   handleSelectCategory(categoryID) {
@@ -78,7 +83,9 @@ class Dashboard extends Component {
         categoryIDs,
         categories,
         selectedCategoryID,
-        isFetching
+        isFetching,
+        isFetchingStats,
+        stats
       },
       actionEditor: {
         actionEditorOpen
@@ -102,18 +109,21 @@ class Dashboard extends Component {
         {actionEditorOpen ?
           <ActionEditor />
           :
-          <div>
+          <div style={style.content}>
             { !displaySpecificCard ?
-              <CategoryBar
-                municipalityName={name}
-                categories={categories}
-                categoryIDs={categoryIDs}
-                handleSelectCategory={this.handleSelectCategory}
-                selectedCategoryID={selectedCategoryID}/>
-              : <RaisedButton
-                  label='Back to all actions'
-                  secondary={false}
-                  href={'/#/dashboard/'+municipalityName}/>
+              <div>
+                <MunicipalityStats
+                municipalityName={municipalityName}
+                stats={stats}/>
+                <Divider />
+                <CategoryBar
+                  municipalityName={name}
+                  categories={categories}
+                  categoryIDs={categoryIDs}
+                  handleSelectCategory={this.handleSelectCategory}
+                  selectedCategoryID={selectedCategoryID}/>
+              </div>
+              : null
             }
             <ReportCardGrid
               displaySpecificCard={displaySpecificCard}
@@ -141,6 +151,7 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
   return {
     getMunicipality: bindActionCreators(getMunicipality, dispatch),
+    getStats: bindActionCreators(getStats, dispatch),
     selectAction: bindActionCreators(selectAction, dispatch),
     selectCategory: bindActionCreators(selectCategory, dispatch),
     deselectCategory: bindActionCreators(deselectCategory, dispatch),
