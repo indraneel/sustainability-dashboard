@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import operator
 from pathlib import Path
 from flask import Flask, json, jsonify, abort, request
 from flask_cors import CORS, cross_origin
@@ -40,7 +41,12 @@ def town_endpoint():
 @app.route('/stats', methods = ['GET'])
 def get_visualizations():
     town = get_town_from_request(request.args)
-    visualizations = [action_count_viz, category_count_viz, points_over_time_viz]
+    visualizations = [
+        action_count_viz,
+        category_count_viz,
+        points_over_time_viz,
+        points_by_category_viz
+    ]
 
     return jsonify({
         'name': town,
@@ -82,6 +88,20 @@ def points_over_time_viz(town):
         'title': 'Points Earned by Date',
         'visualization': {
             'type': 'line',
+            'data': data
+        }
+    }
+
+def points_by_category_viz(town):
+    data = [{'x': cat, 'y': points} \
+            for cat, points \
+            in sorted(get_points_by_category(town).items(),
+                key=operator.itemgetter(1), reverse=True)]
+
+    return {
+        'title': 'Points Earned by Category',
+        'visualization': {
+            'type': 'bar',
             'data': data
         }
     }
@@ -209,6 +229,23 @@ def parse_date(d):
     if len(split_date) > 1:
         return split_date[1] + '-' + split_date[0] #MM-YYYY
     return date_string #YYYY
+
+def get_points_by_category(town):
+    category_map = get_category_map()
+    results = db.engine.execute(
+        'SELECT category, SUM(points) FROM cert_reports \
+        WHERE town=%s GROUP BY category;', (town,))
+
+    category_points = {}
+    for res in results:
+        cat_mapped = category_map[res[0]]
+        c = int(res[1])
+        if cat_mapped in category_points:
+            category_points[cat_mapped] += c
+        else:
+            category_points[cat_mapped] = c
+
+    return category_points
 
 @app.errorhandler(NotFound)
 def handle_not_found(error):
