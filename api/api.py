@@ -224,11 +224,7 @@ def get_points_by_date(town):
     return {parse_date(res[0]): res[1] for res in results}
 
 def parse_date(d):
-    date_string = str(d)
-    split_date = date_string.split('-')
-    if len(split_date) > 1:
-        return split_date[1] + '-' + split_date[0] #MM-YYYY
-    return date_string #YYYY
+    return ', '.join(str(d).split('-'))
 
 def get_points_by_category(town):
     category_map = get_category_map()
