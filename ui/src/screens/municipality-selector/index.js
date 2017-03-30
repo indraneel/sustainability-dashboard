@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import LinearProgress from 'material-ui/LinearProgress';
-
+import {LoadingIndicator} from 'lucid-ui';
 import MenuBar from '../../containers/menu-bar';
 import MunicipalitiesGrid from '../../containers/municipalities-grid';
 
@@ -23,6 +23,7 @@ class MunicipalitySelector extends Component {
       getMunicipalities
     } = this.props;
 
+    this.handleMunicipalityDeselected();
     getMunicipalities();
   }
 
@@ -53,14 +54,15 @@ class MunicipalitySelector extends Component {
           showSearch={true}
           municipalityNames={municipalityNames}
           handleMunicipalitySelected={this.handleMunicipalitySelected}
-          handleMunicipalityDeselected={this.handleMunicipalityDeselected}/>
-        {
-          isFetching ?
-          <LinearProgress mode="indeterminate" />
-          : <MunicipalitiesGrid
-            municipalities={municipalities}
-            selectedMunicipality={selectedMunicipality}/>
-        }
+          handleMunicipalityDeselected={this.handleMunicipalityDeselected}
+          showLoader={isFetching}/>
+        <div style={{marginTop: '100px'}}>
+          <LoadingIndicator isLoading={isFetching}>
+            <MunicipalitiesGrid
+              municipalities={municipalities}
+              selectedMunicipality={selectedMunicipality}/>\
+          </LoadingIndicator>
+        </div>
       </div>
     )
   }

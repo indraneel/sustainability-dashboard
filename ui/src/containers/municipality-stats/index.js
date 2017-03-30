@@ -35,7 +35,7 @@ class MunicipalityStats extends Component {
     let tiles = this.renderTiles(this.props.stats);
     return(
       <StatContainer>
-        <Title>{this.props.municipalityName} Stats</Title>
+        <Title>Town Stats</Title>
         <GridList
           cellHeight={500}
           cols={2}

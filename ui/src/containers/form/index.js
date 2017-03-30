@@ -47,6 +47,10 @@ class Form extends Component {
     } = this.props.actionData;
 
     let mappedCategory = CategoryMapper(category);
+    let selectedCategory = null;
+    if (this.props.categoryId) {
+      selectedCategory = this.props.categories[this.props.categoryId-1];
+    }
     let categories = [];
     this.props.categories.forEach((category, index) => {
       categories.push(<MenuItem
@@ -150,7 +154,7 @@ class Form extends Component {
           <RaisedButton
             label={'Save'}
             fullWidth={true}
-            backgroundColor={COLORS.PINK.rgba}
+            backgroundColor={COLORS.MINT_GREEN.hex}
             onTouchTap={this.props.handleSave}/>
         </div>
       </div>

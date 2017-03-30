@@ -13,8 +13,9 @@ export default {
   },
   bar: {
     margin: '0 auto',
-    maxWidth: '750px',
+    maxWidth: '950px',
     display: 'flex',
-    border: '2px grey'
+    border: '2px grey',
+    flexDirection: 'row'
   }
 }

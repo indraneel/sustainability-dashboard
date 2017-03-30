@@ -3,17 +3,17 @@ export default [
   {
     categoryId: 1,
     title: 'Community',
-    color: 'DARK_GREEN'
+    color: 'LIGHT_GREEN'
   },
   {
     categoryId: 2,
     title: 'Waste + Pollution',
-    color: 'GREEN'
+    color: 'BEIGE_PINK'
   },
   {
     categoryId: 3,
     title: 'Governance',
-    color: 'BROWN'
+    color: 'BEIGE'
   },
   {
     categoryId: 4,
@@ -23,7 +23,7 @@ export default [
   {
     categoryId: 5,
     title: 'Food',
-    color: 'YELLOW'
+    color: 'ORANGE'
   },
   {
     categoryId: 6,

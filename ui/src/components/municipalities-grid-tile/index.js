@@ -26,9 +26,9 @@ const StyledLink = styled(Link)`
 const StyledPaper = styled(Paper)`
   display: flex;
   flex-direction: column;
-
+  padding: 10px;
   &:hover {
-    border-top: 2px solid red;
+    border-top: 1px solid ${COLORS.PURPLE.hex};
   }
 `;
 
@@ -44,11 +44,11 @@ class MunicipalitiesGridTile extends Component {
     };
     if (Number(points)) {
       if (Number(points) >= 0 && Number(points)<200){
-        pointStyle.color = COLORS.PINK.hex;
+        pointStyle.color = COLORS.RED.hex;
       } else if (Number(points) >= 200 & Number(points)<500) {
         pointStyle.color = COLORS.YELLOW.hex;
-      } else {
-        pointStyle.color = COLORS.DARK_GREEN.rgb;
+      } else if (Number(points)>=500) {
+        pointStyle.color = COLORS.LIGHT_GREEN.hex;
       }
     }
 

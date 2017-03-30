@@ -14,7 +14,7 @@ import {
   chartConstants
 } from 'lucid-ui';
 
-const palette = chartConstants.PALETTE_6;
+const palette = chartConstants.PALETTE_MONOCHROME_GOOD_3;
 
 class Visualization extends Component {
   render() {
@@ -42,6 +42,21 @@ class Visualization extends Component {
           yAxisField: 'y'
         }
       };
+
+      if (type === 'line') {
+        let newData = data.map((curr, index) => {
+          let newObj = {};
+          let newX = typeof curr.x === 'string' ?
+            new Date(curr.x)
+            : curr.x;
+          newObj.x = newX;
+          newObj.y = Number(curr.y);
+          return newObj;
+        });
+        data = newData;
+      } else if (type === 'bar') {
+
+      }
     }
 
     xAxisField = xAxisField || 'x';

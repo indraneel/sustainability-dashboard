@@ -3,6 +3,7 @@ export default {
   	height: '100%'
   },
   content: {
+    marginTop: '100px',
     display: 'flex',
     flexDirection: 'column'
   }

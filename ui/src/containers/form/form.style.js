@@ -4,6 +4,7 @@ export default {
     margin: '0 auto'
   },
   root: {
+    marginTop: '100px',
     display: 'flex',
     flexDirection: 'column',
     textAlign: 'center'

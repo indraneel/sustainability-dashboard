@@ -5,7 +5,8 @@ export default {
     display: 'flex',
     flexDirection: 'column',
     maxWidth: '400px',
-    maxHeight: '500px'
+    maxHeight: '500px',
+    padding: '10px'
   },
   social: {
     display: 'flex',
@@ -36,8 +37,8 @@ export default {
   title: {
     textAlign: 'center',
     marginLeft: '10px',
-    fontSize: '30px',
-    lineHeight: '45px',
+    fontSize: '25px',
+    lineHeight: '37px',
     fontWeight: 'bold',
     overflow: 'hidden'
   },

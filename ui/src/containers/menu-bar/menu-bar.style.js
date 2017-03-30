@@ -2,7 +2,13 @@ import COLORS from '../../constants/colors';
 
 export default {
   root: {
-    background: COLORS.GREEN.rgba,
+    position: 'fixed',
+    zIndex: 10,
+    top: 0,
+    width: '100%'
+  },
+  appBar: {
+    background: COLORS.LIGHT_GREEN.hex,
   },
   logo: {
     maxWidth: '66px',
@@ -12,7 +18,7 @@ export default {
     marginTop: '15px',
     fontWeight: 'bold',
     fontSize: '28px',
-    color: 'black'
+    color: COLORS.WHITE.hex
   },
   openActionEditorButton: {
     cursor: 'pointer',
@@ -21,6 +27,8 @@ export default {
     cursor: 'pointer',
   },
   searchBar: {
-    flex: '1'
+    flex: '1',
+    marginTop: '20px',
+    fontSize: '28px'
   }
 }

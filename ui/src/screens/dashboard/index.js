@@ -6,7 +6,7 @@ import style from './dashboard-style.js';
 import RaisedButton from 'material-ui/RaisedButton';
 import LinearProgress from 'material-ui/LinearProgress';
 import Divider from 'material-ui/Divider';
-
+import {LoadingIndicator} from 'lucid-ui';
 import MenuBar from '../../containers/menu-bar';
 import CategoryBar from '../../containers/category-bar';
 import MunicipalityStats from '../../containers/municipality-stats';
@@ -100,21 +100,19 @@ class Dashboard extends Component {
         <MenuBar
           municipalityName={name}
           toggleActionEditor={this.handleToggleActionEditor}
-          actionEditorOpen={actionEditorOpen}/>
-        {
-          isFetching ?
-          <LinearProgress mode="indeterminate" />
-          : null
-        }
+          actionEditorOpen={actionEditorOpen}
+          showLoader={isFetching}/>
         {actionEditorOpen ?
           <ActionEditor />
           :
           <div style={style.content}>
             { !displaySpecificCard ?
               <div>
-                <MunicipalityStats
-                municipalityName={municipalityName}
-                stats={stats}/>
+                <LoadingIndicator isLoading={isFetchingStats}>
+                  <MunicipalityStats
+                  municipalityName={municipalityName}
+                  stats={stats}/>
+                </LoadingIndicator>
                 <Divider />
                 <CategoryBar
                   municipalityName={name}
@@ -125,6 +123,7 @@ class Dashboard extends Component {
               </div>
               : null
             }
+            <LoadingIndicator isLoading={isFetching}>
             <ReportCardGrid
               displaySpecificCard={displaySpecificCard}
               displayActionId={displayActionId}
@@ -134,6 +133,7 @@ class Dashboard extends Component {
               handleBuildViz={this.handleBuildViz}
               selectedCategoryID={selectedCategoryID}
               municipalityName={name}/>
+            </LoadingIndicator>
           </div>
          }
       </div>

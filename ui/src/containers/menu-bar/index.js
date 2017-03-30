@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import style from './menu-bar.style.js';
 import COLORS from '../../constants/colors';
-
+import fuzzy from 'fuzzy';
 import { browserHistory } from 'react-router'
 
+import FlatButton from 'material-ui/FlatButton';
+import LinearProgress from 'material-ui/LinearProgress';
 import AppBar from 'material-ui/AppBar';
 import AutoComplete from 'material-ui/AutoComplete';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -13,11 +15,19 @@ import NavigationBack from 'material-ui/svg-icons/navigation/arrow-back';
 import ActionHome from 'material-ui/svg-icons/action/home';
 
 class MenuBar extends Component {
+  constructor(props) {
+    super(props);
+    this.searchFilter = this.searchFilter.bind(this);
+  }
 
+  searchFilter(searchText, key) {
+    return searchText !== '' && fuzzy.match(searchText, key);
+  }
   render() {
     let isRootPath = browserHistory.getCurrentLocation().pathname === '/';
     let topLeftButton =<FloatingActionButton
-        onTouchTap={isRootPath ? null : browserHistory.goBack}>
+        onTouchTap={isRootPath ? null : browserHistory.goBack}
+        backgroundColor={isRootPath ? COLORS.SILVER.hex : COLORS.DARK_BLUE.hex}>
         {
           isRootPath ?
           <ActionHome />
@@ -35,7 +45,7 @@ class MenuBar extends Component {
     let actionEditorButton = this.props.actionEditorOpen ?
       <FloatingActionButton
         onTouchTap={this.props.toggleActionEditor}
-        backgroundColor={this.props.actionEditorOpen ? COLORS.PURPLE.hex : COLORS.PINK.hex}
+        backgroundColor={this.props.actionEditorOpen ? COLORS.LIGHT_RED.hex : COLORS.PINK.hex}
         className={actionEditorButtonClassName}>
         { this.props.actionEditorOpen ?
           <NavigationClose />
@@ -45,12 +55,14 @@ class MenuBar extends Component {
       : null;
 
     return (
+      <div style={style.root}>
       <AppBar
-        style={style.root}
+        style={style.appBar}
         iconElementLeft={this.props.actionEditorOpen ? actionEditorButton : topLeftButton}
         title={<div>
           <img alt={'logo'} style={style.logo} src={'http://www.sustainablejersey.com/typo3conf/ext/t3site/Sites/Main/Resources/Public/Images/logo-sj.png'}/>
         </div>}
+        iconElementRight={<div style={style.title}>{this.props.municipalityName}</div>}
         titleStyle={style.title}
         showMenuIconButton={true}>
         {
@@ -61,10 +73,19 @@ class MenuBar extends Component {
               style={style.searchBar}
               fullWidth={true}
               onNewRequest={this.props.handleMunicipalitySelected}
-              onUpdateInput={this.props.handleMunicipalityDeselected}/>
+              onUpdateInput={this.props.handleMunicipalityDeselected}
+              textFieldStyle={{fontSize: '28px', lineHeight: '35px', fontColor: COLORS.YELLOW.hex}}
+              underlineStyle={{borderColor: COLORS.SILVER.hex}}
+              underlineFocusStyle={{borderColor: COLORS.YELLOW.hex}}
+              filter={this.searchFilter}/>
           : null
         }
       </AppBar>
+      { this.props.showLoader ?
+        <LinearProgress mode="indeterminate" />
+        : null
+      }
+      </div>
     )
   }
 }
