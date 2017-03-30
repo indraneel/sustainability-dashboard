@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-from flask import Flask, jsonify, abort, request
+from pathlib import Path
+from flask import Flask, json, jsonify, abort, request
 from flask_cors import CORS, cross_origin
 from tables import db, CertReports, ReportFiles
 from errors import NotFound, MissingKey
@@ -24,6 +25,7 @@ def get_reports():
 
 @app.route('/town', methods = ['GET'])
 def town_endpoint():
+    return get_towns()
     if not request.args:
         return get_towns()
 
@@ -35,16 +37,59 @@ def town_endpoint():
     if not town_exists(town):
         raise NotFound(town)
 
+@app.route('/stats', methods = ['GET'])
+def get_visualizations():
+    town = get_town_from_request(request.args)
+    visualizations = [action_count_viz, category_count_viz, points_over_time_viz]
+
+    return jsonify({
+        'name': town,
+        'stats': [viz(town) for viz in visualizations]
+    })
+
 def action_count_viz(town):
-    pass
+    data = [{'x': date, 'y': str(action_count)} \
+            for date, action_count \
+            in get_action_count_by_date(town).items()]
+
+    return {
+        'title': 'Actions Completed by Date',
+        'visualization': {
+            'type': 'bar',
+            'data': data
+        }
+    }
 
 def category_count_viz(town):
-    pass
+    data = [{'x': cat, 'y': c} \
+            for cat, c \
+            in get_category_count(town).items()]
 
+    return {
+        'title': 'Actions Completed by Category',
+        'visualization': {
+            'type': 'pie',
+            'data': data
+        }
+    }
+
+def points_over_time_viz(town):
+    data = [{'x': date, 'y': str(points)} \
+            for date, points \
+            in get_points_by_date(town).items()]
+
+    return {
+        'title': 'Points Earned by Date',
+        'visualization': {
+            'type': 'line',
+            'data': data
+        }
+    }
 
 def get_towns():
-    results = db.engine.execute('SELECT town, SUM(points) \
-    FROM cert_reports GROUP BY town;')
+    results = db.engine.execute(
+        'SELECT town, SUM(points) \
+        FROM cert_reports GROUP BY town;')
 
     return jsonify([{'town': res[0], 'points': str(res[1])} for res in results])
 
@@ -53,13 +98,7 @@ def action_endpoint():
     if not request.args and request.method == 'GET':
         return get_column('action')
 
-    if not request.args.get('town'):
-        raise MissingKey('town')
-
-    town = request.args.get('town')
-
-    if not town_exists(town):
-        raise NotFound(town)
+    town = get_town_from_request(request.args)
 
     if request.method == 'GET':
         return get_town_actions(town)
@@ -90,7 +129,7 @@ def get_town_actions(town_name):
         'id': res[0],
         'action': res[1],
         'category': res[2],
-        'assets': res[3],
+        'assets': json.loads(res[3]),
         'visualization': res[4]}
         for res in results])
 
@@ -110,11 +149,66 @@ def update_town_action(params):
     db.session.commit()
     return jsonify({'Action successfully updated': params})
 
+def get_town_from_request(req):
+    if not req.get('town'):
+        raise MissingKey('town')
+
+    town = req.get('town')
+
+    if not town_exists(town):
+        raise NotFound(town)
+
+    return town
+
 def town_exists(town):
     towns = CertReports.query.with_entities(CertReports.town) \
     .distinct(CertReports.town).all()
 
     return [t[0] for t in towns if t[0] == town]
+
+def get_action_count_by_date(town):
+    results = db.engine.execute(
+        'SELECT date, COUNT(action) FROM cert_reports \
+        WHERE town=%s GROUP BY date;', (town,))
+
+    return {parse_date(res[0]): res[1] for res in results}
+
+def get_category_count(town):
+    category_map = get_category_map()
+    results = db.engine.execute(
+        'SELECT category, COUNT(category) FROM cert_reports \
+        WHERE town=%s GROUP BY category;', (town,))
+
+    category_count = {}
+    for res in results:
+        cat_mapped = category_map[res[0]]
+        c = int(res[1])
+        if cat_mapped in category_count:
+            category_count[cat_mapped] += c
+        else:
+            category_count[cat_mapped] = c
+
+    return category_count
+
+def get_category_map():
+    root = Path(__file__).parents[1].resolve()
+    map_file = str(root / 'assets/category_mapping.json')
+    cat_map = json.load(open(map_file))
+    return cat_map
+
+def get_points_by_date(town):
+    results = db.engine.execute(
+        'SELECT date, SUM(points) FROM cert_reports \
+        WHERE town=%s GROUP BY date;', (town,))
+
+    return {parse_date(res[0]): res[1] for res in results}
+
+def parse_date(d):
+    date_string = str(d)
+    split_date = date_string.split('-')
+    if len(split_date) > 1:
+        return split_date[1] + '-' + split_date[0] #MM-YYYY
+    return date_string #YYYY
 
 @app.errorhandler(NotFound)
 def handle_not_found(error):
