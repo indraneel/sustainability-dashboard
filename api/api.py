@@ -108,8 +108,24 @@ def points_by_category_viz(town):
 
 def get_towns():
     results = db.engine.execute(
-        'SELECT town, SUM(points) \
-        FROM cert_reports GROUP BY town;')
+        """SELECT
+              t.town,
+              SUM(points) AS total_points,
+              max_date
+            FROM
+              `cert_reports` t
+              JOIN (
+                -- Subquery produces latest date per name
+                SELECT
+                  town,
+                  MAX(date) AS max_date
+                FROM `cert_reports`
+                GROUP BY town
+              ) town_dates
+                -- Join table to subquery on both name and the aggregate date
+                ON t.town = town_dates.town AND t.date = max_date
+            -- Group for the outer SUM()
+            GROUP BY t.town, max_date;""")
 
     return jsonify([{'town': res[0], 'points': str(res[1])} for res in results])
 
