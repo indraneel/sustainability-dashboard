@@ -169,7 +169,7 @@ def get_town_actions(town_name):
         'action': res[1],
         'category': res[2],
         'assets': json.loads(res[3]),
-        'visualization': res[4]}
+        'visualization': json.loads(res[4])}
         for res in results])
 
 def add_town_action(params):
@@ -179,6 +179,10 @@ def add_town_action(params):
                          visualization = params['visualization'])
     db.session.add(action)
     db.session.commit()
+
+    if params['visualization']:
+        params['visualization'] = json.loads(params['visualization'])
+
     return jsonify({'Action successfully added': params})
 
 def update_town_action(params):
@@ -186,6 +190,10 @@ def update_town_action(params):
     del params['id']
     CertReports.query.filter_by(report_id = params['report_id']).update(params)
     db.session.commit()
+
+    if params['visualization']:
+        params['visualization'] = json.loads(params['visualization'])
+
     return jsonify({'Action successfully updated': params})
 
 def get_town_from_request(req):
