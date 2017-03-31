@@ -4,6 +4,22 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
 
+.background-app-gray {
+  backgroundColor: #EEEEEE;
+}
+
+.button-app-green {
+  color: #427B42;
+}
+
+.text-app-beige {
+  color: #EDEEC0;
+}
+
+.text-app-light-red {
+  color: #B9FFB7;
+}
+
 body,
 html {
     width: 100%;
