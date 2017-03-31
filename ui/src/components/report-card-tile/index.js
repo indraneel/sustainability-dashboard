@@ -50,7 +50,7 @@ class ReportCardTile extends Component {
       }
     });
 
-    const shareUrl = '/dashboard/'+this.props.municipalityName+'/'+id;
+    const shareUrl = '/app/dashboard/'+this.props.municipalityName+'/'+id;
     return (
       <Paper style={style.root}>
         { !isEmpty(visualization) ?

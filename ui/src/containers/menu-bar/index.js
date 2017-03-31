@@ -24,7 +24,8 @@ class MenuBar extends Component {
     return searchText !== '' && fuzzy.match(searchText, key);
   }
   render() {
-    let isRootPath = browserHistory.getCurrentLocation().pathname === '/';
+    let isRootPath = browserHistory.getCurrentLocation().pathname === '/' ||
+      browserHistory.getCurrentLocation().pathname === '/app';
     let topLeftButton =<FloatingActionButton
         onTouchTap={isRootPath ? null : browserHistory.goBack}
         backgroundColor={isRootPath ? COLORS.SILVER.hex : COLORS.DARK_BLUE.hex}>
