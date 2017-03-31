@@ -82,7 +82,8 @@ def category_count_viz(town):
 def points_over_time_viz(town):
     data = [{'x': date, 'y': str(points)} \
             for date, points \
-            in get_points_by_date(town).items()]
+            in sorted(get_points_by_date(town).items(),
+                key=operator.itemgetter(1))]
 
     return {
         'title': 'Points Earned by Date',
