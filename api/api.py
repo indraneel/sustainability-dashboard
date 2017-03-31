@@ -56,7 +56,8 @@ def get_visualizations():
 def action_count_viz(town):
     data = [{'x': date, 'y': str(action_count)} \
             for date, action_count \
-            in get_action_count_by_date(town).items()]
+            in sorted(get_action_count_by_date(town).items(),
+                key=operator.itemgetter(1))]
 
     return {
         'title': 'Actions Completed by Date',
