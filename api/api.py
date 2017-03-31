@@ -207,7 +207,7 @@ def get_action_count_by_date(town):
         'SELECT date, COUNT(action) FROM cert_reports \
         WHERE town=%s GROUP BY date;', (town,))
 
-    return {parse_date(res[0]): res[1] for res in results}
+    return {str(res[0]): res[1] for res in results}
 
 def get_category_count(town):
     category_map = get_category_map()
@@ -237,10 +237,7 @@ def get_points_by_date(town):
         'SELECT date, SUM(points) FROM cert_reports \
         WHERE town=%s GROUP BY date;', (town,))
 
-    return {parse_date(res[0]): res[1] for res in results}
-
-def parse_date(d):
-    return ', '.join(str(d).split('-'))
+    return {str(res[0]): res[1] for res in results}
 
 def get_points_by_category(town):
     category_map = get_category_map()
