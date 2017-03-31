@@ -149,6 +149,8 @@ def action_endpoint():
             missing.append('category')
         if 'visualization' not in params:
             params['visualization'] = ''
+        else:
+            params['visualization'] = json.dumps(params['visualization'])
         if missing:
             raise MissingKey(', '.join(missing))
         if 'id' in params:
