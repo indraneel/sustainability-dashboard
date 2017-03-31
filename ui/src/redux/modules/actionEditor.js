@@ -1,6 +1,10 @@
 import api from '../services/api';
 import apiAdapter from '../middlewares/apiAdapter';
-
+import CategoryMapper from '../../constants/category-map';
+import Categories from '../../constants/categories';
+import {
+  getMunicipality
+} from './municipality';
 // actions
 const ACTION_PREFIX = 'sd/actionEditor/';
 
@@ -85,7 +89,6 @@ export function toggleActionEditor() {
     if (getState().actionEditor.actionEditorOpen) {
       // close it and navigate to dashboard
       dispatch(actionEditorClosed());
-
     } else {
       let currentActionId = getState().municipality.currentActionId;
       let indexForActionId = getState().municipality.completedActionIDs[currentActionId];
@@ -99,10 +102,18 @@ export function toggleActionEditor() {
   }
 }
 
-export function save() {
+export function saveAction() {
   return (dispatch, getState) => {
-    let savePayload = apiAdapter.stateToPost(getState(), 'action', 'POST');
+    let savePayload = apiAdapter.postSaveAction(getState());
     dispatch(actionEditorSaving(savePayload));
+    return api('action', 'POST', {town: getState().municipality.name}, savePayload)
+    .then(response => response.json())
+    .then(json => {
+      dispatch(actionEditorSaved(getState().actionEditor.actionData.id));
+      dispatch(toggleActionEditor());
+      dispatch(getMunicipality(getState().municipality.name));
+    });
+
   }
 }
 
@@ -128,6 +139,17 @@ export default function reducer(state = initialState, action = {}) {
   let actionData = {};
   switch (action.type) {
     case ACTION_EDITOR_LOADED:
+      let currAction = action.payload.currentAction;
+      if (currAction.category) {
+        let mappedCategory = CategoryMapper(currAction.category);
+        let mappedCategoryId = null;
+        Categories.forEach((value) => {
+          if (value.title === mappedCategory) {
+            mappedCategoryId = value.categoryId;
+          }
+        });
+        currAction.categoryId = mappedCategoryId;
+      }
       return Object.assign({},
         {...state},
         { actionData: {

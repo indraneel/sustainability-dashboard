@@ -6,6 +6,10 @@ import ReportCardTile from '../../components/report-card-tile';
 import CategoryMapper from '../../constants/category-map';
 import {LoadingIndicator} from 'lucid-ui';
 
+import {Helmet} from 'react-helmet';
+
+let metadata = {};
+
 class ReportCardGrid extends Component {
   renderTiles(selectedCategory, completedActions, displaySpecificCard, displayCardId, municipalityName) {
     let output = [];
@@ -18,6 +22,7 @@ class ReportCardGrid extends Component {
 
       if (displaySpecificCard) {
         if (actionData.id === displayCardId) {
+          metadata = actionData;
           output.push(<ReportCardTile
             key={index}
             actionData={actionData}
@@ -53,6 +58,7 @@ class ReportCardGrid extends Component {
 
       if (displaySpecificCard) {
         if (actionData.id === displayCardId) {
+          metadata = actionData;
           output.push(<ReportCardTile
             key={index}
             actionData={actionData}
@@ -92,6 +98,15 @@ class ReportCardGrid extends Component {
 
     return (
       <div style={style.root}>
+        { displaySpecificCard ?
+          <Helmet>
+            <meta property="og:url"                content={`http://dashability.com/app/dashboard/'+${this.props.municipalityName}+/+${this.props.displayActionId}`}/>
+            <meta property="og:type"               content="article" />
+            <meta property="og:title"              content={`${metadata.action} – Sustainable Jersey`}/>
+            <meta property="og:description"        content={`See the progress ${this.props.municipalityName} has made in ${metadata.category}!`}/>
+          </Helmet>
+          : null
+        }
         <LoadingIndicator isLoading={this.props.isFetching}>
           <GridList
             cellHeight={'auto'}

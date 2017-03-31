@@ -4,7 +4,9 @@ import isEmpty from 'lodash/isEmpty';
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
+import FlatButton from 'material-ui/FlatButton';
 import ContentLink from 'material-ui/svg-icons/content/link';
+import ImageEdit from 'material-ui/svg-icons/image/edit';
 
 import {
   ShareButtons,
@@ -33,7 +35,6 @@ const LinkedinIcon = generateShareIcon('linkedin');
 const PinterestIcon = generateShareIcon('pinterest');
 
 class ReportCardTile extends Component {
-
   render() {
     let {
       id,
@@ -76,9 +77,14 @@ class ReportCardTile extends Component {
                   <LinkedinIcon size={32}/>
                 </LinkedinShareButton>
 
-            <a href={shareUrl} style={style.permalink}>
-              <ContentLink />
-            </a>
+            <div style={style.permalink}>
+              <IconButton onTouchTap={(e) => this.props.handleBuildViz(id)}>
+                <ImageEdit />
+              </IconButton>
+              <a href={shareUrl}>
+                <ContentLink />
+              </a>
+            </div>
           </div>
           : <VisualizationPlaceholder id={id} handleBuildViz={this.props.handleBuildViz}/>
         }

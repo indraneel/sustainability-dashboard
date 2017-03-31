@@ -9,7 +9,8 @@ import {
   actionEditorSaving,
   actionEditorSaved,
   actionEditorVisualizationValueChanged,
-  toggleActionEditor
+  toggleActionEditor,
+  saveAction
 } from '../../redux/modules/actionEditor';
 import { visualizationEditorTypeChanged } from '../../redux/modules/visualizationEditor';
 
@@ -37,12 +38,16 @@ class ActionEditor extends Component {
       open: true
     });
 
-    let payload = {
-      actionData: this.props.actionEditor.actionData,
-      visualization: this.props.visualizationEditor
-    }
-    this.props.actionEditorSaved(payload);
-    this.props.toggleActionEditor();
+    // in memory save
+    // let payload = {
+    //   actionData: this.props.actionEditor.actionData,
+    //   visualization: this.props.visualizationEditor
+    // }
+    // this.props.actionEditorSaved(payload);
+    // this.props.toggleActionEditor();
+
+    // api save
+    this.props.saveAction();
   }
 
   render() {
@@ -76,6 +81,7 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
   return {
+    saveAction: bindActionCreators(saveAction, dispatch),
     toggleActionEditor: bindActionCreators(toggleActionEditor, dispatch),
     actionEditorValueChanged: bindActionCreators(actionEditorValueChanged, dispatch),
     actionEditorSaved: bindActionCreators(actionEditorSaved, dispatch),

@@ -1,6 +1,7 @@
 import VISUALIZATION_ENTRY_FIELDS from '../../constants/visualization-entry-fields';
 import {
-  ACTION_EDITOR_SAVED
+  ACTION_EDITOR_SAVED,
+  ACTION_EDITOR_LOADED
 } from './actionEditor';
 
 // actions
@@ -95,6 +96,12 @@ export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case ACTION_EDITOR_SAVED:
       return initialState;
+
+    case ACTION_EDITOR_LOADED:
+      return Object.assign({},
+        {...state},
+        { ...action.payload.currentAction.visualization }
+      );
 
     case VISUALIZATION_EDITOR_DATA_ADDED:
       return Object.assign({},

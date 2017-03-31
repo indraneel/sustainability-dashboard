@@ -174,56 +174,6 @@ export default function reducer(state = initialState, action = {}) {
         {...state},
         {currentScreenPath: 'dashboard'}
       );
-    case ACTION_EDITOR_SAVED:
-    //TODO- get rid of this in-memory saving method
-      let editing = Object.keys(state.completedActionIDs).map(Number).includes(action.payload.actionData.id)
-        ? true
-        : false;
-      if (editing) {
-        let indexForActionId = state.completedActionIDs[action.payload.actionData.id];
-        let existingAction = state.completedActions[indexForActionId];
-        let newAction = {
-          ...action.payload.actionData,
-          visualization: action.payload.visualization
-        };
-        let updatedAction = {
-          ...existingAction,
-          ...newAction
-        };
-
-        let updatedCompletedActions = [
-          ...state.completedActions,
-        ];
-        updatedCompletedActions[indexForActionId] = updatedAction;
-
-        return Object.assign({},
-          { ...state },
-          {
-            completedActions: updatedCompletedActions
-          }
-        )
-      } else {
-        //saving new
-        // let newId = state.completedActions[state.completedActions.length-1].id+1;
-        // let newCompletedAction = Object.assign({},
-        //   {
-        //     ...action.payload.actionData,
-        //     visualization: action.payload.visualization
-        //   },
-        //   { id: newId }
-        // );
-        // let completedActionIDs = state.completedActionIDs.concat(newId);
-        // let completedActions = state.completedActions.concat(newCompletedAction);
-        //
-        // return Object.assign({},
-        //   { ...state },
-        //   {
-        //     completedActions,
-        //     completedActionIDs
-        //   }
-        // );
-        return state;
-      }
 
     case MUNICIPALITY_SELECT_ACTION:
       return Object.assign({},

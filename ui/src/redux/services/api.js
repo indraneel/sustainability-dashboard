@@ -13,16 +13,24 @@ const paramStringBuilder = (obj) => {
   return output;
 }
 
-const getRequestURLBuilder = (endpoint, params) => {
-  return getSetting('apiEndpoint') + endpoint + '?' + paramStringBuilder(params);
+const getRequestURLBuilder = (endpoint, queryParams) => {
+  return getSetting('apiEndpoint') + endpoint + '?' + paramStringBuilder(queryParams);
 }
 
-export default (endpoint, method, params) => {
+export default (endpoint, method, queryParams, payload = null) => {
   if (method === 'GET') {
-    let requestURL = getRequestURLBuilder(endpoint, params);
+    let requestURL = getRequestURLBuilder(endpoint, queryParams);
     return fetch(`${requestURL}`);
 
-  } else {
+  } else if (method === 'POST') {
     //POST
+    let requestURL = getRequestURLBuilder(endpoint, queryParams);
+    return fetch(`${requestURL}`, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json"
+      },
+    });
   }
 }
