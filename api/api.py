@@ -168,8 +168,8 @@ def get_town_actions(town_name):
         'id': res[0],
         'action': res[1],
         'category': res[2],
-        'assets': json.loads(res[3]),
-        'visualization': json.loads(res[4])}
+        'assets': json.loads(res[3]) if res[3] else res[3],
+        'visualization': json.loads(res[4]) if res[4] else res[4]}
         for res in results])
 
 def add_town_action(params):
