@@ -33,5 +33,5 @@ class CertReports(Table, db.Model):
 
 class ReportFiles(Table, db.Model):
     __tablename__ = 'report_files'
-    file_id = db.Column(db.Integer, db.ForeignKey('cert_report.report_id'), primary_key=True)
+    cert_id = db.Column(db.Integer, primary_key=True)
     report_file = db.Column(db.LargeBinary)

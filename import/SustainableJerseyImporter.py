@@ -14,7 +14,6 @@ class SustainableJerseyImporter:
             'report': self.getReportPDF,
             'contact': self.getContact,
             'date': self.getDate,
-            'points': self.getPoints,
             'categories': self.getCategories
         }
 
@@ -48,26 +47,31 @@ class SustainableJerseyImporter:
             catName = self.getCategoryName(category)
             actions = self.getActions(category)
             for action in actions:
-                actName = self.getActionName(category)
+                actName = self.getActionName(action)
                 assets = self.getAssets(action)
                 summary = self.getSummary(action)
+                points = self.getPoints(action)
 
                 try:
                     self.cur.execute("""INSERT INTO cert_reports
                     (town, action, category, assets, contact, summary, date, points, cert_id)
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
                     (report['town'], actName, catName, assets, report['contact'], \
-                     summary, report['date'], report['points'], self.certId))
+                     summary, report['date'], points, self.certId))
                     self.db.commit()
 
-                    self.cur.execute("""INSERT INTO report_files
-                    (report_file) VALUES (%s)""", (report['report'],))
-                    self.db.commit()
                 except MySQLdb.IntegrityError as e:
                     self.db.rollback()
                 except (MySQLdb.Error, MySQLdb.Warning) as e:
                     print(e)
                     self.db.rollback()
+        try:
+            self.cur.execute("""INSERT INTO report_files
+            (cert_id, report_file) VALUES (%s, %s)""", (self.certId, report['report']))
+            self.db.commit()
+        except (MySQLdb.Error, MySQLdb.Warning) as e:
+            print(e)
+            self.db.rollback()
 
     def getTownName(self, page):
         intro = str(page.find_all('p', class_='lead', limit=2)) \
@@ -78,10 +82,17 @@ class SustainableJerseyImporter:
 
     def findTown(self, intro):
         lowIntro = intro.lower()
+        currLen = 0;
+        foundTown = ''
         for town in self.towns:
             i = lowIntro.find(town.lower())
             if i > -1 and intro[i-1] != '(' and intro[i + len(town) + 1] != ')':
-                return town
+                if len(town) > currLen:
+                    foundTown = town
+                    currLen = len(town)
+
+        if foundTown:
+            return foundTown
         raise LookupError('Town name not found!', self.certId, intro)
 
     def getAllTownNames(self):
@@ -177,6 +188,7 @@ def main():
         sj.setCertId(i)
         url = sj.getUrl(i)
         page = sj.getReportPage(url)
+        #print(page.prettify('latin-1')) #to debug
         if page:
             sj.storeReport(page)
         if i % 25 == 0:
