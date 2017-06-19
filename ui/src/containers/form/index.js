@@ -19,6 +19,13 @@ import SJCategories from '../../constants/sj-categories';
 import COLORS from '../../constants/colors';
 import VIZ_TYPES from '../../constants/visualization-types';
 
+import styled from 'styled-components';
+
+const AttachmentListItem = styled(Paper)`
+  width: 400px;
+  height: 50px;
+`;
+
 class Form extends Component {
   constructor(props) {
     super(props);
@@ -77,12 +84,11 @@ class Form extends Component {
     let assetList = [
       <Subheader inset={true}>Attachments</Subheader>
     ];
-    Object.keys(assets).forEach((filename) => {
+    Object.keys(assets).forEach((filename, index, assetNames) => {
       assetList.push(
-        <ListItem
-          primaryText={filename}
-          leftAvatar={<FileAttachment />}>
-        </ListItem>
+        <AttachmentListItem key={index}>
+          <a href={assets[filename]} target={'blank'}>{filename}</a>
+        </AttachmentListItem>
       );
     });
     assetList.push(<Divider />);

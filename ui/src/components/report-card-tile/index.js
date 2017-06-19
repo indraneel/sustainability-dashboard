@@ -51,7 +51,7 @@ class ReportCardTile extends Component {
       }
     });
 
-    const shareUrl = '/app/dashboard/'+this.props.municipalityName+'/'+id;
+    const shareUrl = 'http://dashability.com/app/dashboard/'+this.props.municipalityName+'/'+id;
     return (
       <Paper style={style.root}>
         { !isEmpty(visualization) ?

@@ -4,7 +4,6 @@ import isEmpty from 'lodash/isEmpty';
 
 import style from './visualization.style.js';
 import BigTextVisualization from './big-text';
-import {RadialChart} from 'react-vis';
 import {
   PieChart,
   LineChart,

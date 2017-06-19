@@ -5,8 +5,16 @@ import style from './municipalities-grid.style.js';
 import MunicipalitiesGridTile from '../../components/municipalities-grid-tile';
 import CategoryMapper from '../../constants/category-map';
 import {LoadingIndicator} from 'lucid-ui';
+import orderBy from 'lodash/orderBy';
 
 class MunicipalitiesGrid extends Component {
+  sortMunicipalities(actions) {
+    let output = [];
+    output = orderBy(actions, [function(o) { return Number.parseInt(o.points); }], ['desc']);
+    console.log(actions);
+    return output;
+  }
+
   renderTiles(municipalities, selectedMunicipality = null) {
     let output = [];
     if (!selectedMunicipality) {
@@ -32,7 +40,8 @@ class MunicipalitiesGrid extends Component {
     return output;
   }
   render() {
-    let tiles = this.renderTiles(this.props.municipalities, this.props.selectedMunicipality);
+    let municipalities = this.sortMunicipalities(this.props.municipalities);
+    let tiles = this.renderTiles(municipalities, this.props.selectedMunicipality);
     return(
       <div style={style.root}>
         <LoadingIndicator isLoading={this.props.isFetching}>

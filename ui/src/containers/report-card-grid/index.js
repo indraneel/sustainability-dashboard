@@ -98,11 +98,12 @@ class ReportCardGrid extends Component {
 
     return (
       <div style={style.root}>
-        { displaySpecificCard ?
+        { false ?
           <Helmet>
-            <meta property="og:url"                content={`http://dashability.com/app/dashboard/'+${this.props.municipalityName}+/+${this.props.displayActionId}`}/>
+            <title>{`${metadata.action} — ${this.props.municipalityName} – Sustainable Jersey`}</title>
+            <meta property="og:url"                content={`http://dashability.com/app/dashboard/${this.props.municipalityName}/${this.props.displayActionId}`}/>
             <meta property="og:type"               content="article" />
-            <meta property="og:title"              content={`${metadata.action} – Sustainable Jersey`}/>
+            <meta property="og:title"              content={`${metadata.action} — ${this.props.municipalityName} – Dashability`}/>
             <meta property="og:description"        content={`See the progress ${this.props.municipalityName} has made in ${metadata.category}!`}/>
           </Helmet>
           : null
